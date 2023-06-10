@@ -35,7 +35,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
        lcd_t.gTimer_colon_ms++ ;
 	   run_t.gTimer_numbers_one_two_blink++;
 	   run_t.gTimer_digital5678_ms++;
-
+       run_t.gTimer_ptc_fan_blink_warning++ ;
     }
 
     if(tm0>99){ //100 *10ms = 1000ms = 1s
