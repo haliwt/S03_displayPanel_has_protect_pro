@@ -509,7 +509,7 @@ void DisplayPanel_Ref_Handler(void)
 					     	
 								TM1723_Write_Display_Data(0xCC,lcdNumber7_Low[0]+lcdNumber8_High[2]);//display "7,8'
 						 }
-						 else if(run_t.gTimer_ptc_fan_warning >60)
+						 else 
 						 	run_t.gTimer_ptc_fan_warning=0;
 
                      }
@@ -542,7 +542,7 @@ void DisplayPanel_Ref_Handler(void)
 					    
 						TM1723_Write_Display_Data(0xCC,T14+lcdNumber7_Low[0]+lcdNumber8_High[2]);//display "t,c
 					}
-				   else if(run_t.gTimer_ptc_fan_warning >60)
+				   else 
 					   run_t.gTimer_ptc_fan_warning=0;
 					}
 					else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
@@ -580,7 +580,7 @@ void DisplayPanel_Ref_Handler(void)
 					   
 						TM1723_Write_Display_Data(0xCC,lcdNumber7_Low[0]+lcdNumber8_High[2]);//display "7,8'
 					}
-					else if(run_t.gTimer_ptc_fan_warning >60)
+					else 
 					   run_t.gTimer_ptc_fan_warning=0;
 
 					}
@@ -615,7 +615,7 @@ void DisplayPanel_Ref_Handler(void)
 					    
 						TM1723_Write_Display_Data(0xCC,T14+lcdNumber7_Low[0]+lcdNumber8_High[2]);//display "t,c
 				  	}
-					else if(run_t.gTimer_ptc_fan_warning >60)
+					else 
 						 run_t.gTimer_ptc_fan_warning=0;
 				  	}
 				  	else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
@@ -653,7 +653,7 @@ void DisplayPanel_Ref_Handler(void)
 					   
 						TM1723_Write_Display_Data(0xCC,lcdNumber7_Low[0]+lcdNumber8_High[2]);//display "7,8'
 					 }
-					 else if(run_t.gTimer_ptc_fan_warning >60)
+					 else
 					 	 run_t.gTimer_ptc_fan_warning=0;
 				    }
 					else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
@@ -683,7 +683,7 @@ void DisplayPanel_Ref_Handler(void)
 					
 					 TM1723_Write_Display_Data(0xCC,T14+lcdNumber7_Low[0]+lcdNumber8_High[2]);//display "t,c
 			    }
-				else if(run_t.gTimer_ptc_fan_warning >60)
+				else
 					 run_t.gTimer_ptc_fan_warning=0;
 			 	}
 				else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
@@ -724,7 +724,7 @@ void DisplayPanel_Ref_Handler(void)
 					   
 						TM1723_Write_Display_Data(0xCE,T13+lcdNumber8_Low[2]+0xE0);//display "t,c"
 				 	}
-					else if(run_t.gTimer_ptc_fan_warning >60) 
+					else 
 						 run_t.gTimer_ptc_fan_warning=0;
 				 	}
 					else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
@@ -756,7 +756,7 @@ void DisplayPanel_Ref_Handler(void)
 					
 						TM1723_Write_Display_Data(0xCE,lcdNumber8_Low[2]+0xE0);//display "t,c"
 				     }
-					 else if(run_t.gTimer_ptc_fan_warning >60) 
+					 else 
 					 	run_t.gTimer_ptc_fan_warning=0;
 
 				 	}
@@ -795,7 +795,7 @@ void DisplayPanel_Ref_Handler(void)
 						
 						TM1723_Write_Display_Data(0xCE,T13+lcdNumber8_Low[2]+WIND_SPEED_TWO);//display "t,c"
 				    }
-					else if(run_t.gTimer_ptc_fan_warning >60) 
+					else 
 						run_t.gTimer_ptc_fan_warning=0;
 
 					}
@@ -829,7 +829,7 @@ void DisplayPanel_Ref_Handler(void)
 						
 						TM1723_Write_Display_Data(0xCE,lcdNumber8_Low[2]+WIND_SPEED_TWO);//display "t,c"
 					}
-					else if(run_t.gTimer_ptc_fan_warning >60)
+					else 
 						run_t.gTimer_ptc_fan_warning=0;
 					
 					}
@@ -869,7 +869,7 @@ void DisplayPanel_Ref_Handler(void)
 					
 						TM1723_Write_Display_Data(0xCE,T13+lcdNumber8_Low[2]+WIND_SPEED_ONE);//display "t,c"
 					 }
-					 else if(run_t.gTimer_ptc_fan_warning >60)
+					 else 
 					 	run_t.gTimer_ptc_fan_warning=0;
 				  	}
 					else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
@@ -902,8 +902,10 @@ void DisplayPanel_Ref_Handler(void)
 					  
 					  TM1723_Write_Display_Data(0xCE,lcdNumber8_Low[2]+WIND_SPEED_ONE);//display "t,c"
 				   	}
-					else if(run_t.gTimer_ptc_fan_warning >60)
+					else
 						run_t.gTimer_ptc_fan_warning=0;
+
+					   
 				   	}
 				    else if(run_t.gTimer_ptc_fan_blink_warning> 5 &&  run_t.gTimer_ptc_fan_blink_warning< 11){
 							
