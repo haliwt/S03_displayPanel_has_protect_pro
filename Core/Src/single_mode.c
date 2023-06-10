@@ -85,6 +85,10 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.timer_timing_define_flag = timing_not_definition;
 
 			run_t.gKey_command_tag = KEY_NULL;
+			run_t.ptc_too_hot_flag = 0;
+			run_t.ptc_warning = 0;
+			
+			run_t.fan_warning=0;
 
 	  break;
 
@@ -152,7 +156,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  case MODE_KEY_ITEM://case model_key:
 		if(run_t.gPower_On ==1){
 			//SendData_Buzzer();
-
+           if(run_t.ptc_warning ==0){
 		   if(run_t.display_set_timer_timing == beijing_time){
 		
                //timer time + don't has ai item
@@ -173,7 +177,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			}
 			
 			
-				
+          }		
 		 }
 	  run_t.gKey_command_tag = KEY_NULL;
 
@@ -182,7 +186,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  
 	  case MODE_KEY_LONG_TIME_KEY://case model_long_key:
 	  	if(run_t.gPower_On ==1){
-		  //  SendData_Buzzer();
+		   if(run_t.ptc_warning ==0){
 			run_t.gModel=2;
 		   run_t.setup_timer_timing_item=1;//run_t.gModel =2;
 		   run_t.display_set_timer_timing  =timer_time;
@@ -193,7 +197,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		   
 		   
 		   SendData_Set_Wifi(MODE_TIMER);
-		  // HAL_Delay(50);
+		   }
 		   
 	  	 }
 
@@ -202,6 +206,8 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case ADD_KEY_ITEM: //case add_key:
 	  	 if(run_t.gPower_On ==1){
+
+		    if(run_t.ptc_warning ==0){
 		
 			SendData_Buzzer();
 		
@@ -277,7 +283,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				break;
 				}	
 			
-				
+		     }
             }
 
 		 run_t.gKey_command_tag = KEY_NULL;
@@ -285,6 +291,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case DEC_KEY_ITEM: //case dec_key:
 	   if(run_t.gPower_On ==1){
+	   	 if(run_t.ptc_warning ==0){
 	   	SendData_Buzzer();
 	     switch(run_t.setup_timer_timing_item){
 
@@ -354,6 +361,7 @@ void Process_Key_Handler(uint8_t keylabel)
              break;
 
 	    	}
+	   	  }
 		}
 
       run_t.gKey_command_tag = KEY_NULL;
@@ -1185,6 +1193,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 
 
 			 case PTC_ERROR:
+			 	 run_t.gTimer_ptc_fan_warning=0;
 			 	  run_t.gDry=0;
 				  run_t.ptc_too_hot_flag =1;
 			      run_t.ptc_warning =1;
@@ -1192,6 +1201,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 			 break;
 
 			 case FAN_ERROR:
+			 	 run_t.gTimer_ptc_fan_warning=31;
 			 	 run_t.ptc_too_hot_flag =1;
 			 	 run_t.disp_wind_speed_grade=0;
 	
