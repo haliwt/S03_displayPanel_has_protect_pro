@@ -145,10 +145,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 		 break;
 
-		 
-		
-       
-		 }
+		}
 	  
 		
 	  break;
@@ -156,7 +153,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  case MODE_KEY_ITEM://case model_key:
 		if(run_t.gPower_On ==1){
 			//SendData_Buzzer();
-           if(run_t.ptc_warning ==0){
+           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 		   if(run_t.display_set_timer_timing == beijing_time){
 		
                //timer time + don't has ai item
@@ -185,7 +182,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  
 	  case MODE_KEY_LONG_TIME_KEY://case model_long_key:
-	  	if(run_t.gPower_On ==1){
+	  	if(run_t.gPower_On ==1 && run_t.fan_warning ==0){
 		   if(run_t.ptc_warning ==0){
 			run_t.gModel=2;
 		   run_t.setup_timer_timing_item=1;//run_t.gModel =2;
