@@ -772,7 +772,7 @@ void RunPocess_Command_Handler(void)
 		}
 	   
 	   //set up temparature value 
-	  if(run_t.temperature_set_flag ==1 && run_t.gTimer_temp_delay > 61){
+	  if(run_t.temperature_set_flag ==1 && run_t.gTimer_temp_delay > 61 && run_t.ptc_warning==0){
                run_t.gTimer_temp_delay =0;
 		 
 		  
@@ -811,13 +811,13 @@ void RunPocess_Command_Handler(void)
 			}
     }
 
-    if(run_t.wifi_connect_flag ==0 && link_wifi_success==0 && run_t.gTimer_connect_wifi > 4){
-           run_t.gTimer_connect_wifi=0;
-           link_wifi_success=0;
-           SendData_Set_Command(WIFI_CONNECT_FAIL);//0x55
-           HAL_Delay(2);
-
-     }
+//    if(run_t.wifi_connect_flag ==0 && link_wifi_success==0 && run_t.gTimer_connect_wifi > 4){
+//           run_t.gTimer_connect_wifi=0;
+//           link_wifi_success=0;
+//           SendData_Set_Command(WIFI_CONNECT_FAIL);//0x55
+//           HAL_Delay(2);
+//
+//     }
 
      if(run_t.wifi_connect_flag ==1 && link_wifi_success==0 ){
             link_wifi_success++;
