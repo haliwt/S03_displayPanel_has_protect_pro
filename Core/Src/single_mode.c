@@ -123,18 +123,13 @@ void Process_Key_Handler(uint8_t keylabel)
 		 break;
 
 		 case 1:
-
-		
-		 	
-	     run_t.recoder_start_conuter_flag=0;
-	     run_t.gTimer_key_start_counter=0;
-		run_t.gTimer_key_counter=0;
-         run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-        
-		run_t.wifi_led_fast_blink_flag=1;
-		run_t.wifi_connect_flag =0;
-		run_t.gTimer_wifi_connect_counter=0;
-		run_t.wifi_link_flag=2;
+			run_t.recoder_start_conuter_flag=0;
+			run_t.gTimer_key_start_counter=0;
+			run_t.gTimer_key_counter=0;
+			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+			run_t.wifi_connect_flag =0;
+			run_t.gTimer_wifi_connect_counter=0;
+			run_t.wifi_link_flag=2;
 
 		 break;
 
