@@ -367,6 +367,7 @@ void Key_TheSecond_Scan(void)
         if(POWER_KEY_VALUE() ==KEY_DOWN){
 			if(run_t.gTimer_key_counter> 2 || run_t.gTimer_key_counter==2){
             SendData_Set_Wifi(0x01);
+            HAL_Delay(50);
 
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
 			run_t.gTimer_key_start_counter=0;
