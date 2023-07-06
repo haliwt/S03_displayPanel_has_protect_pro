@@ -389,7 +389,14 @@ void Key_TheSecond_Scan(void)
             power_key_detected++;
              run_t.gTimer_detected_power_key =0; 
          }
-         else if(run_t.gTimer_detected_power_key >=3 && power_key_detected==1){
+         else if(power_key_detected==1){
+              power_key_detected++;
+
+              run_t.gTimer_detected_power_key =0; 
+
+
+         }
+         else if(run_t.gTimer_detected_power_key >=3 && power_key_detected==2){
              power_key_detected++;
 
             SendData_Set_Wifi(0x01);
