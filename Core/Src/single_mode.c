@@ -706,7 +706,7 @@ void RunPocess_Command_Handler(void)
        if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM && run_t.input_key_flag ==POWER_ON_ITEM){
 			run_t.input_key_flag=KEY_NULL;
             SendData_PowerOnOff(1);
-			HAL_Delay(20);
+			HAL_Delay(5);
 			
 
 		}
@@ -714,7 +714,7 @@ void RunPocess_Command_Handler(void)
 	   	 run_t.first_power_on_flag++;
   
 	       SendData_PowerOnOff(1);
-		   HAL_Delay(40);
+		   HAL_Delay(5);
 
 
 	   }

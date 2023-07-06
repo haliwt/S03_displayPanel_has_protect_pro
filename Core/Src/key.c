@@ -9,7 +9,7 @@
 
 
 key_types key_t;
-
+uint8_t power_key_detected;
 uint16_t key_mode_counter;
 
 static uint8_t Key_Mode_Scan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin,uint8_t number);
@@ -156,7 +156,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    
    switch(GPIO_Pin){
 
-      HAL_Delay(30);
+      HAL_Delay(20);
      case KEY_POWER_Pin:
 	 	if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
 			
@@ -351,14 +351,14 @@ static uint8_t Key_Mode_Scan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin,uint8_t numbe
 void Key_TheSecond_Scan(void)
 {
 	uint8_t keyValue_model;
-    static uint8_t power_key_detected;
+   
     
     if(run_t.gTimer_key_start_counter ==1 && run_t.gPower_On==1){
 
 		if(POWER_KEY_VALUE() ==KEY_UP){
 			if(run_t.gTimer_key_counter < 2){
                 SendData_PowerOnOff(0);
-                HAL_Delay(20);
+               // HAL_Delay(5);
                 power_key_detected=0;
 				run_t.gKey_command_tag = POWER_OFF_ITEM; 
                 run_t.gPower_On = RUN_POWER_OFF;
@@ -369,7 +369,7 @@ void Key_TheSecond_Scan(void)
         if(POWER_KEY_VALUE() ==KEY_DOWN){
 			if(run_t.gTimer_key_counter> 2 || run_t.gTimer_key_counter==2){
             SendData_Set_Wifi(0x01);
-            HAL_Delay(50);
+            HAL_Delay(10);
              power_key_detected=0;
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
 			run_t.gTimer_key_start_counter=0;
@@ -384,7 +384,7 @@ void Key_TheSecond_Scan(void)
       
 	}
     else if(run_t.gPower_On==1){
-      if(POWER_KEY_VALUE() ==KEY_DOWN){
+      if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.recoder_start_conuter_flag==0){
          if(run_t.gTimer_key_counter==0 &&  power_key_detected==0){
             power_key_detected++;
              run_t.gTimer_detected_power_key =0; 
@@ -393,7 +393,7 @@ void Key_TheSecond_Scan(void)
              power_key_detected++;
 
             SendData_Set_Wifi(0x01);
-            HAL_Delay(50);
+            HAL_Delay(10);
 
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
 			run_t.gTimer_key_start_counter=0;
