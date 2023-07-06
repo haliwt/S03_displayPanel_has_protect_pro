@@ -73,7 +73,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.gPower_On = RUN_POWER_OFF;
             run_t.input_key_flag =POWER_OFF_ITEM;
 			run_t.temperature_set_flag = 0;
-            run_t.gTimer_key_start_counter=0;
+            run_t.power_key_interrupt_start_counter_flag=0;
 			run_t.wifi_set_temperature_value_flag=0;
 		    run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
             run_t.wifi_led_fast_blink_flag=0;
@@ -117,15 +117,15 @@ void Process_Key_Handler(uint8_t keylabel)
 
 		  case 0:
         
-		    // SendData_Set_Wifi(0x01);
-		    // HAL_Delay(300);
+		     SendData_Set_Wifi(0x01);
+		     HAL_Delay(10);
 		     run_t.wifi_link_flag =1;
          
 		 break;
 
 		 case 1:
 			run_t.recoder_start_conuter_flag=0;
-			run_t.gTimer_key_start_counter=0;
+			run_t.power_key_interrupt_start_counter_flag=0;
 			run_t.gTimer_key_counter=0;
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
 			run_t.wifi_connect_flag =0;
@@ -844,7 +844,7 @@ void RunPocess_Command_Handler(void)
 		          }
 
 		}
-        run_t.gTimer_key_start_counter=0;
+        run_t.power_key_interrupt_start_counter_flag=0;
 		power_off_flag=1;
         break;
 

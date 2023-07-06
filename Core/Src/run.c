@@ -56,7 +56,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	    run_t.gTimer_detected_power_key++;
     
           run_t.gTimer_timing++;
-		if(run_t.gTimer_key_start_counter==1){
+		if(run_t.power_key_interrupt_start_counter_flag==1){
               run_t.gTimer_key_counter++;
 		}
 

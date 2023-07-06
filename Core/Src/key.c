@@ -169,7 +169,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 //            }
 //			else if(run_t.recoder_start_conuter_flag==0){
 //			  run_t.recoder_start_conuter_flag++;
-//			  run_t.gTimer_key_start_counter=1;
+//			  run_t.power_key_interrupt_start_counter_flag=1;
 //			  run_t.gTimer_key_counter=0;
 //
 //			}
@@ -351,9 +351,10 @@ static uint8_t Key_Mode_Scan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin,uint8_t numbe
 void Key_TheSecond_Scan(void)
 {
 	uint8_t keyValue_model,keyflag ;
-   
+
     
-    if(run_t.gTimer_key_start_counter ==1 && run_t.gPower_On==1){
+    
+    if(run_t.power_key_interrupt_start_counter_flag ==1 && run_t.gPower_On==1){
 
 		if(POWER_KEY_VALUE() ==KEY_UP){
 			if(run_t.gTimer_key_counter < 2){
@@ -363,44 +364,52 @@ void Key_TheSecond_Scan(void)
         
 				run_t.gKey_command_tag = POWER_OFF_ITEM; 
                 run_t.gPower_On = RUN_POWER_OFF;
-				run_t.gTimer_key_start_counter=0;
-                 keyflag =0;
+				run_t.power_key_interrupt_start_counter_flag=0;
+                
+          
                 return ;
 			}
-		}
+		
+          }
+
+    
         if(POWER_KEY_VALUE() ==KEY_DOWN){
+           
 			if(run_t.gTimer_key_counter> 2 || run_t.gTimer_key_counter==2){
             SendData_Set_Wifi(0x01);
-            HAL_Delay(5);
-            run_t.power_key_detected=0;
-           
+          //  HAL_Delay(5);
+            run_t.gTimer_key_counter=0;
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
-			run_t.gTimer_key_start_counter=0;
+			run_t.power_key_interrupt_start_counter_flag=0;
 			run_t.wifi_link_flag=0;
-            keyflag =1;
+
+            run_t.power_key_interrupt_counter=0;
+            run_t.power_key_detected=0;
+            run_t.gTimer_detected_power_key=0;
 
 			 return ;
-			}
-
-
+            }
 		}
+
+
+	
 
       
 	}
     else if(run_t.gPower_On==1){
-      if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.recoder_start_conuter_flag==0 && keyflag ==0){
+      if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.recoder_start_conuter_flag==0){
          if(run_t.gTimer_key_counter==0 &&  run_t.power_key_detected==0){
             run_t.power_key_detected++;
              run_t.gTimer_detected_power_key =0; 
          }
-         else if(run_t.gTimer_detected_power_key >=2 && run_t.power_key_detected==1){
+         if(run_t.gTimer_detected_power_key >=1 && run_t.power_key_detected==1){
              run_t.power_key_detected++;
 
             SendData_Set_Wifi(0x01);
-            HAL_Delay(5);
+          //  HAL_Delay(5);
 
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
-			run_t.gTimer_key_start_counter=0;
+			run_t.power_key_interrupt_start_counter_flag=0;
 			run_t.wifi_link_flag=0;
            
 
@@ -412,7 +421,7 @@ void Key_TheSecond_Scan(void)
 
     }
 
-    
+
 
 	if(run_t.gPower_On == 1 ){
 		keyValue_model = Key_Mode_Scan(KEY_MODE_GPIO_Port,KEY_MODE_Pin,0x02);

@@ -182,10 +182,11 @@ void EXTI4_15_IRQHandler(void)
             
 			if(run_t.recoder_start_conuter_flag==0 && run_t.gPower_On == 1){
 			  run_t.recoder_start_conuter_flag++;
-			  run_t.gTimer_key_start_counter=1;
+			  run_t.power_key_interrupt_start_counter_flag=1;
 			  run_t.gTimer_key_counter=0;
-
+               
 			}
+             run_t.power_key_interrupt_counter++;
 
            
             
