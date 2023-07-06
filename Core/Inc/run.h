@@ -57,6 +57,7 @@ typedef struct __RUN{
   uint8_t wifi_link_flag;
   uint8_t first_power_on_flag;
   uint8_t step_run_power_on_tag;
+  uint8_t gTimer_detected_power_key;
  
   
    uint8_t usart_flag;

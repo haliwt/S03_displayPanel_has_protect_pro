@@ -53,7 +53,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_ptc_fan_warning++;
 
 		run_t.gTimer_usart_error++;
-	
+	    run_t.gTimer_detected_power_key++;
     
           run_t.gTimer_timing++;
 		if(run_t.gTimer_key_start_counter==1){
