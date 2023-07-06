@@ -141,8 +141,14 @@ uint8_t KEY_Scan(void)
 
 
 
-/**********************************************************
-***********************************************************/
+/********************************************************************
+*
+*Function Name:
+*Function: interrupt of GPIO of call back function
+*
+*
+*
+*********************************************************************/
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    //static uint16_t key_power_counter,add_key_counter,dec_key_counter;
@@ -150,7 +156,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    
    switch(GPIO_Pin){
 
-      HAL_Delay(30);
+      HAL_Delay(20);
      case KEY_POWER_Pin:
 	 	if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
 			
@@ -161,43 +167,20 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 			    run_t.recoder_start_conuter_flag=0;
             }
-			else if(run_t.power_times==1){
-
-			    if(run_t.gPower_On==1){
-					
-                    
-					if(run_t.recoder_start_conuter_flag==0){
-						run_t.recoder_start_conuter_flag++;
-						run_t.gTimer_key_start_counter=1;
-					  run_t.gTimer_key_counter=0;
-
-					}
-					if(run_t.gTimer_key_counter> 3 || run_t.gTimer_key_counter==3){
-                        
-					     run_t.gKey_command_tag = LINK_WIFI_ITEM;
-						
-
-					}
-					
-                   
-			    }
+			else if(run_t.recoder_start_conuter_flag==0){
+			  run_t.recoder_start_conuter_flag++;
+			  run_t.gTimer_key_start_counter=1;
+			  run_t.gTimer_key_counter=0;
 
 			}
-
+					
 		}
+
+		
 
      break;
 
-//	 case KEY_MODE_Pin:
-//	 	 if(MODE_KEY_VALUE()==KEY_DOWN){
-//
-//		    
-//                 key_mode_counter++;
-//
-//
-//		 }
-//
-//	 break;
+
 
 	 case KEY_ADD_Pin:
 	 
@@ -373,14 +356,17 @@ void Key_TheSecond_Scan(void)
 
 		if(POWER_KEY_VALUE() ==KEY_UP){
 			if(run_t.gTimer_key_counter < 2){
-
+                SendData_PowerOnOff(0);
+                HAL_Delay(20);
 				run_t.gKey_command_tag = POWER_OFF_ITEM; 
+                run_t.gPower_On = RUN_POWER_OFF;
 				run_t.gTimer_key_start_counter=0;
                 return ;
 			}
 		}
-        else if(POWER_KEY_VALUE() ==KEY_DOWN){
-			if(run_t.gTimer_key_counter> 3 || run_t.gTimer_key_counter==3){
+        if(POWER_KEY_VALUE() ==KEY_DOWN){
+			if(run_t.gTimer_key_counter> 2 || run_t.gTimer_key_counter==2){
+            SendData_Set_Wifi(0x01);
 
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
 			run_t.gTimer_key_start_counter=0;
@@ -391,6 +377,8 @@ void Key_TheSecond_Scan(void)
 
 
 		}
+
+      
 	}
 
 	if(run_t.gPower_On == 1 ){

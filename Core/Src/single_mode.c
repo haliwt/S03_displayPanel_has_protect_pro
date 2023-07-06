@@ -116,8 +116,8 @@ void Process_Key_Handler(uint8_t keylabel)
 
 		  case 0:
         
-		     SendData_Set_Wifi(0x01);
-		     HAL_Delay(300);
+		    // SendData_Set_Wifi(0x01);
+		    // HAL_Delay(300);
 		     run_t.wifi_link_flag =1;
          
 		 break;
@@ -835,6 +835,7 @@ void RunPocess_Command_Handler(void)
 	    if(run_t.wifi_send_buzzer_sound != WIFI_POWER_OFF_ITEM){
 			     if(run_t.first_power_on_flag !=2)
                     SendData_PowerOnOff(0);
+                    HAL_Delay(10);
 		          if(run_t.first_power_on_flag ==2){
 		          	  run_t.first_power_on_flag++;
                       
