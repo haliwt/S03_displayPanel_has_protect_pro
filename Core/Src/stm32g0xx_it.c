@@ -22,6 +22,9 @@
 #include "stm32g0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "run.h"
+#include "key.h"
+#include "cmd_link.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -167,6 +170,28 @@ void EXTI4_15_IRQHandler(void)
 
   /* USER CODE END EXTI4_15_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(KEY_POWER_Pin);
+  if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
+			
+			
+            if(run_t.gPower_On == 0){
+				
+				run_t.gKey_command_tag = POWER_ON_ITEM;
+
+			    run_t.recoder_start_conuter_flag=0;
+            }
+            
+			if(run_t.recoder_start_conuter_flag==0 && run_t.gPower_On == 1){
+			  run_t.recoder_start_conuter_flag++;
+			  run_t.gTimer_key_start_counter=1;
+			  run_t.gTimer_key_counter=0;
+
+			}
+
+           
+            
+            
+					
+		}
  // HAL_GPIO_EXTI_IRQHandler(KEY_MODE_Pin);
   HAL_GPIO_EXTI_IRQHandler(KEY_DEC_Pin);
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */
