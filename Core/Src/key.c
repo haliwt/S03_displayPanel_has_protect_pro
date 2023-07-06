@@ -360,6 +360,7 @@ void Key_TheSecond_Scan(void)
 			if(run_t.gTimer_key_counter < 2){
                 SendData_PowerOnOff(0);
                // HAL_Delay(5);
+               run_t.wifi_led_fast_blink_flag=0;
                run_t.power_key_detected=0;
         
 				run_t.gKey_command_tag = POWER_OFF_ITEM; 
@@ -383,9 +384,9 @@ void Key_TheSecond_Scan(void)
 			run_t.power_key_interrupt_start_counter_flag=0;
 			run_t.wifi_link_flag=0;
 
-            run_t.power_key_interrupt_counter=0;
+          //  run_t.power_key_interrupt_counter=0;
             run_t.power_key_detected=0;
-            run_t.gTimer_detected_power_key=0;
+         //   run_t.gTimer_detected_power_key=0;
 
 			 return ;
             }
@@ -396,13 +397,13 @@ void Key_TheSecond_Scan(void)
 
       
 	}
-    else if(run_t.gPower_On==1){
+    if(run_t.gPower_On==1){
       if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.recoder_start_conuter_flag==0){
          if(run_t.gTimer_key_counter==0 &&  run_t.power_key_detected==0){
             run_t.power_key_detected++;
              run_t.gTimer_detected_power_key =0; 
          }
-         if(run_t.gTimer_detected_power_key >=1 && run_t.power_key_detected==1){
+         if(run_t.gTimer_detected_power_key >=3 && run_t.power_key_detected==1){
              run_t.power_key_detected++;
 
             SendData_Set_Wifi(0x01);
