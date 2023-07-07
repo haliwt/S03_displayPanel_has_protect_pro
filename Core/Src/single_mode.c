@@ -63,7 +63,7 @@ void Beijing_Time_Init(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-    static uint8_t power_on_fisrt_flag,display_model;
+    static uint8_t power_on_fisrt_flag,display_model,power_off;
     static uint8_t temp_bit_1_hours,temp_bit_2_hours,temp_bit_1_minute,temp_bit_2_minute;
     static uint8_t power_off_thefirst;
     run_t.process_run_guarantee_flag=0;
@@ -73,12 +73,16 @@ void Process_Key_Handler(uint8_t keylabel)
             Power_Off_Fun();
             if(power_off_thefirst==0){
                power_off_thefirst++;
+               
+               run_t.gFan_RunContinue = 0;
             }
             else if(run_t.wifi_send_buzzer_sound != WIFI_POWER_OFF_ITEM){
        
                 SendData_PowerOnOff(0);
         		HAL_Delay(5);
+               
             }
+            if(power_off!=0) run_t.gFan_RunContinue=1;
 			run_t.gPower_On = RUN_POWER_OFF;
           
 			run_t.temperature_set_flag = 0;
@@ -120,7 +124,7 @@ void Process_Key_Handler(uint8_t keylabel)
     			run_t.gModel =1;
     			run_t.display_set_timer_timing=beijing_time ;
                 run_t.gKey_command_tag = KEY_NULL;
-        
+                power_off =2;
 		
 		break;
 
@@ -378,7 +382,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		
 		run_t.wifi_led_fast_blink_flag=0;
 		run_t.timer_timing_define_flag = timing_not_definition;
-		run_t.gFan_RunContinue=1;
+		
 		run_t.disp_wind_speed_grade =30;	
 		
 		run_t.fan_off_60s =0;
@@ -683,13 +687,13 @@ void RunPocess_Command_Handler(void)
 {
    //key input run function
 
-   static uint8_t temp1,temp2,key_set_temp_flag, link_wifi_success;
+   static uint8_t temp1,temp2,key_set_temp_flag, link_wifi_success,power_off;
    static uint8_t power_on_fisrt_send_temperature_value, works_break_flag;
 
    switch(run_t.gPower_On){
 
    case RUN_POWER_ON:
-    
+       power_off=0;
        run_t.first_power_on_flag=3;
      
 
@@ -823,7 +827,9 @@ void RunPocess_Command_Handler(void)
 			  POWER_ON_LED();
 		      LCD_Display_Wind_Icon_Handler();
            	}
-		   else{
+		   else {
+               
+               
                run_t.gFan_RunContinue =0;
 			   Lcd_PowerOff_Fun();
 

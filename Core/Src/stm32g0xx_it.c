@@ -176,7 +176,7 @@ void EXTI4_15_IRQHandler(void)
 			
 			
             if(run_t.gPower_On == 0){
-				
+				run_t.process_run_guarantee_flag=1;
 			 run_t.gKey_command_tag = POWER_ON_ITEM;
 
 		    }
