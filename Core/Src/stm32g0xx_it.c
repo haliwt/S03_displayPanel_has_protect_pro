@@ -186,7 +186,7 @@ void EXTI4_15_IRQHandler(void)
 			  run_t.gTimer_key_counter=0;
                
 			}
-             run_t.power_key_interrupt_counter++;
+             run_t.power_key_interrupt_counter=0;
 
            
             

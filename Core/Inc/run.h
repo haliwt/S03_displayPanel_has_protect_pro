@@ -59,7 +59,7 @@ typedef struct __RUN{
   uint8_t step_run_power_on_tag;
   uint8_t gTimer_detected_power_key;
   uint8_t power_key_detected;
-  uint8_t power_key_interrupt_counter;
+  uint8_t power_key_interrupt_start_counter_flag;
  
   
    uint8_t usart_flag;
@@ -121,7 +121,6 @@ typedef struct __RUN{
    uint8_t  gmt_time_seconds;
    uint8_t display_set_timer_timing;
 
-   uint8_t power_key_interrupt_start_counter_flag;
    uint8_t gTimer_key_counter;
    uint8_t recoder_start_conuter_flag;
 
@@ -159,7 +158,7 @@ typedef struct __RUN{
     int8_t 	gTime_hours;
 
    
-	
+	 uint16_t power_key_interrupt_counter;
 	 uint16_t gTimer_ptc_fan_blink_warning;
      uint16_t gTimer_numbers_one_two_blink;
      uint32_t wifi_key_counter;
