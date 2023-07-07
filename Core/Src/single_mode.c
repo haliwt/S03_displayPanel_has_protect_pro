@@ -63,7 +63,7 @@ void Beijing_Time_Init(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-    static uint8_t power_on_fisrt_flag,display_model,power_off;
+    static uint8_t power_on_fisrt_flag,display_model,power_off,power_on;
     static uint8_t temp_bit_1_hours,temp_bit_2_hours,temp_bit_1_minute,temp_bit_2_minute;
     static uint8_t power_off_thefirst;
     run_t.process_run_guarantee_flag=0;
@@ -108,6 +108,12 @@ void Process_Key_Handler(uint8_t keylabel)
 	  break;
 
 	  case POWER_ON_ITEM:
+
+                if(power_on==0){
+                   power_on++;
+                   run_t.power_key_interrupt_counter=1;
+
+                }
 
                if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
                SendData_PowerOnOff(1);
