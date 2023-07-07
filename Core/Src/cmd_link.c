@@ -203,7 +203,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                      run_t.wifi_connect_flag =0;
                   }
 				  else if(inputBuf[0]==0x52){
-					run_t.wifi_led_fast_blink_flag=1;
+					//run_t.wifi_led_fast_blink_flag=1;
+					run_t.wifi_receive_led_fast_led_flag =1;
                     
 				  }
                  

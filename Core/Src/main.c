@@ -138,7 +138,7 @@ int main(void)
 		   
             //Key_TheSecond_Scan();
              if(run_t.gPower_On==1)
-               run_t.gKey_command_tag= KEY_Scan();
+                run_t.gKey_command_tag= KEY_Scan();
 			if(run_t.first_power_on_flag==1){
 				run_t.first_power_on_flag++;
 				

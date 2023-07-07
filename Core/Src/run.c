@@ -56,9 +56,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	    run_t.gTimer_detected_power_key++;
     
           run_t.gTimer_timing++;
-		if(run_t.power_key_interrupt_start_counter_flag==1){
-              run_t.gTimer_key_counter++;
-		}
+	    run_t.gTimer_wifi_led_blink++;
 
 	    if(run_t.dispTime_seconds >59){//60s ->1 minute 
 	      run_t.dispTime_seconds=0;

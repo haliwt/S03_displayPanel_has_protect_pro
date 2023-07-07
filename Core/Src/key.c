@@ -329,7 +329,7 @@ static uint8_t Key_Mode_Scan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin,uint8_t numbe
 
 }
 
-
+#if 0
 void Key_TheSecond_Scan(void)
 {
 	uint8_t keyValue_model;
@@ -429,4 +429,4 @@ void Key_TheSecond_Scan(void)
    }
 
 }
-
+#endif 

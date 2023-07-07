@@ -59,7 +59,7 @@ typedef struct __RUN{
   uint8_t step_run_power_on_tag;
   uint8_t gTimer_detected_power_key;
   uint8_t power_key_detected;
-  uint8_t power_key_interrupt_start_counter_flag;
+
  
   
    uint8_t usart_flag;
@@ -95,13 +95,16 @@ typedef struct __RUN{
    uint8_t wifi_led_fast_blink_flag ;
  
    uint8_t  setup_timer_timing_item;
+   //wifi
    uint8_t  wifi_set_oneself_temperature;
    uint8_t   wifi_set_temperature_value_flag;
+   uint8_t wifi_receive_led_fast_led_flag;
  
    uint8_t auto_model_shut_off_ptc_flag;
 
    //iwdg ref
    uint8_t process_run_guarantee_flag;
+   
 
 
  
@@ -121,7 +124,7 @@ typedef struct __RUN{
    uint8_t  gmt_time_seconds;
    uint8_t display_set_timer_timing;
 
-   uint8_t gTimer_key_counter;
+
  
 
 
@@ -135,6 +138,8 @@ typedef struct __RUN{
    uint8_t wifisetTime[1];
    uint8_t wifiCmd[2];
 
+   //gTimer
+   uint8_t gTimer_wifi_led_blink;
    uint8_t gTimer_wifi_connect_counter;
    uint8_t panel_key_setup_timer_flag;
    uint8_t gTimer_temp_delay;
