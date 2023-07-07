@@ -122,7 +122,7 @@ typedef struct __RUN{
    uint8_t display_set_timer_timing;
 
    uint8_t gTimer_key_counter;
-   uint8_t recoder_start_conuter_flag;
+ 
 
 
  

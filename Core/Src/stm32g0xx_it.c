@@ -177,22 +177,18 @@ void EXTI4_15_IRQHandler(void)
 				
 				run_t.gKey_command_tag = POWER_ON_ITEM;
 
-			    run_t.recoder_start_conuter_flag=0;
+			   
             }
             
 			if(run_t.gPower_On == POWER_ON){
-			  run_t.recoder_start_conuter_flag++;
+			 
 			  run_t.power_key_interrupt_start_counter_flag=1;
 			  run_t.gTimer_key_counter=0;
               run_t.power_key_interrupt_counter=0;
 			}
              
 
-           
-            
-            
-					
-		}
+  }
  // HAL_GPIO_EXTI_IRQHandler(KEY_MODE_Pin);
   HAL_GPIO_EXTI_IRQHandler(KEY_DEC_Pin);
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */

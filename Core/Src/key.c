@@ -156,29 +156,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    
    switch(GPIO_Pin){
 
-//      HAL_Delay(20);
-//     case KEY_POWER_Pin:
-//	 	if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
-//			
-//			
-//            if(run_t.gPower_On == 0){
-//				
-//				run_t.gKey_command_tag = POWER_ON_ITEM;
-//
-//			    run_t.recoder_start_conuter_flag=0;
-//            }
-//			else if(run_t.recoder_start_conuter_flag==0){
-//			  run_t.recoder_start_conuter_flag++;
-//			  run_t.power_key_interrupt_start_counter_flag=1;
-//			  run_t.gTimer_key_counter=0;
-//
-//			}
-//					
-//		}
-//
-//		
-//
-//     break;
+
 
 
 
@@ -186,8 +164,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 
 
 	 	if(ADD_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1 ){
-          run_t.recoder_start_conuter_flag=0;
-		run_t.gKey_command_tag = ADD_KEY_ITEM;
+         
+		    run_t.gKey_command_tag = ADD_KEY_ITEM;
 
 
 		}
@@ -198,11 +176,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		
 		if(DEC_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
         
-           run_t.recoder_start_conuter_flag=0;
-		 run_t.gKey_command_tag = DEC_KEY_ITEM;
+         
+		    run_t.gKey_command_tag = DEC_KEY_ITEM;
 
-
-		}
+       }
 	 
 
 	 break;
@@ -368,7 +345,7 @@ void Key_TheSecond_Scan(void)
            if(POWER_KEY_VALUE() ==KEY_UP){
 			if(run_t.gTimer_key_counter < 2){
                 SendData_PowerOnOff(0);
-               // HAL_Delay(5);
+                HAL_Delay(10);
                run_t.wifi_led_fast_blink_flag=0;
                run_t.power_key_detected=0;
         
@@ -388,7 +365,7 @@ void Key_TheSecond_Scan(void)
            
 			if(run_t.gTimer_key_counter> 2 || run_t.gTimer_key_counter==2){
             SendData_Set_Wifi(0x01);
-        
+            HAL_Delay(10);
             run_t.gTimer_key_counter=0;
 			run_t.gKey_command_tag = LINK_WIFI_ITEM;
 			run_t.power_key_interrupt_start_counter_flag=POWER_NULL;
@@ -401,12 +378,6 @@ void Key_TheSecond_Scan(void)
 			 return ;
             }
 		}
-
-
-	
-
-      
-
     break;
 
     case 0:
@@ -416,7 +387,7 @@ void Key_TheSecond_Scan(void)
             run_t.power_key_detected++;
              run_t.gTimer_detected_power_key =0; 
          }
-         if(run_t.gTimer_detected_power_key >=3 && run_t.power_key_detected==1){
+         if(run_t.gTimer_detected_power_key >=2 && run_t.power_key_detected==1){
              run_t.power_key_detected++;
 
             SendData_Set_Wifi(0x01);

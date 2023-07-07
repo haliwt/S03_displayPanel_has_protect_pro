@@ -99,7 +99,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			
 			run_t.input_key_flag =POWER_ON_ITEM;
 			
-			run_t.recoder_start_conuter_flag=0;
+		
 
 			run_t.gModel =1;
 			run_t.display_set_timer_timing=beijing_time ;
@@ -124,7 +124,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		 break;
 
 		 case 1:
-			run_t.recoder_start_conuter_flag=0;
+		
 			run_t.power_key_interrupt_start_counter_flag=0;
 			run_t.gTimer_key_counter=0;
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
