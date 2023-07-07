@@ -170,6 +170,8 @@ void EXTI4_15_IRQHandler(void)
 
   /* USER CODE END EXTI4_15_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(KEY_POWER_Pin);
+  HAL_GPIO_EXTI_IRQHandler(KEY_ADD_Pin);
+  HAL_GPIO_EXTI_IRQHandler(KEY_DEC_Pin);
   if(POWER_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
 			
 			

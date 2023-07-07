@@ -28,14 +28,14 @@ uint8_t KEY_Scan(void)
     {
         key_t.read &= ~0x01; // 0xff & 0xfe =  0xFE
     }
-    if(DEC_KEY_VALUE()==KEY_DOWN )
-	{
-		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
-	}
-    else if(ADD_KEY_VALUE() ==KEY_DOWN )
-	{
-		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
-	 }
+//    if(DEC_KEY_VALUE()==KEY_DOWN )
+//	{
+//		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
+//	}
+//    else if(ADD_KEY_VALUE() ==KEY_DOWN )
+//	{
+//		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
+//	 }
     else if(MODE_KEY_VALUE() ==KEY_DOWN )
 	{
 		key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
@@ -62,7 +62,7 @@ uint8_t KEY_Scan(void)
 			if(key_t.read == key_t.buffer) // adjust key be down ->continunce be pressed key
 			{
 
-			 if(++key_t.on_time>99 ){
+			 if(++key_t.on_time>59 ){
 
 					key_t.value = key_t.buffer^_KEY_ALL_OFF; // key.value = 0xFE ^ 0xFF = 0x01
 					key_t.on_time = 0;                        //key .value = 0xEF ^ 0XFF = 0X10
@@ -156,40 +156,37 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
   
    switch(GPIO_Pin){
 
-//    case KEY_POWER_Pin:
-//
-//      run_t.power_key_interrupt_counter++;
-//
-//
-//    break;
+
 
       
     
-//	 case KEY_ADD_Pin:
-//	 
-//
-//	 	if(ADD_KEY_VALUE() ==KEY_DOWN && run_t.gPower_On==1 ){
-//         
-//		    run_t.gKey_command_tag = ADD_KEY_ITEM;
-//
-//
-//		}
-//
-//	 break;
-//
-//	 case KEY_DEC_Pin:
-//		
-//		if(DEC_KEY_VALUE() ==KEY_DOWN &&  run_t.gPower_On==1){
-//        
-//         
-//		    run_t.gKey_command_tag = DEC_KEY_ITEM;
-//
-//       }
-//	 
-//
-//	 break;
-//
-//
+	 case KEY_ADD_Pin:
+	 
+
+	 	if(ADD_KEY_VALUE() ==KEY_DOWN && run_t.gPower_On==1 ){
+         
+		    run_t.gKey_command_tag = ADD_KEY_ITEM;
+            run_t.process_run_guarantee_flag=1;
+
+
+		}
+
+	 break;
+
+	 case KEY_DEC_Pin:
+		
+		if(DEC_KEY_VALUE() ==KEY_DOWN &&  run_t.gPower_On==1){
+        
+         
+		    run_t.gKey_command_tag = DEC_KEY_ITEM;
+            run_t.process_run_guarantee_flag=1;
+
+       }
+	 
+
+	 break;
+
+
 
 
 
