@@ -28,14 +28,14 @@ uint8_t KEY_Scan(void)
     {
         key_t.read &= ~0x01; // 0xff & 0xfe =  0xFE
     }
-    if(DEC_KEY_VALUE()==KEY_DOWN )
-	{
-		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
-	}
-    else if(ADD_KEY_VALUE() ==KEY_DOWN )
-	{
-		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
-	 }
+//    if(DEC_KEY_VALUE()==KEY_DOWN )
+//	{
+//		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
+//	}
+//    else if(ADD_KEY_VALUE() ==KEY_DOWN )
+//	{
+//		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
+//	 }
     else if(MODE_KEY_VALUE() ==KEY_DOWN )
 	{
 		key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD

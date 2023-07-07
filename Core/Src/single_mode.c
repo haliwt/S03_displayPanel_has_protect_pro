@@ -65,7 +65,7 @@ void Process_Key_Handler(uint8_t keylabel)
 {
     static uint8_t power_on_fisrt_flag,display_model;
     static uint8_t temp_bit_1_hours,temp_bit_2_hours,temp_bit_1_minute,temp_bit_2_minute;
-  
+    static uint8_t power_on_changed;
     switch(keylabel){
 
       case POWER_OFF_ITEM://case power_key:
@@ -94,17 +94,53 @@ void Process_Key_Handler(uint8_t keylabel)
 	  break;
 
 	  case POWER_ON_ITEM:
-	  		Power_On_Fun();
-			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-			
-			run_t.input_key_flag =POWER_ON_ITEM;
-			
-		
 
-			run_t.gModel =1;
-			run_t.display_set_timer_timing=beijing_time ;
+           
+           power_on_changed =power_on_changed ^ 0x01;
+           if(power_on_changed==1){
+               SendData_PowerOnOff(1);
+    			HAL_Delay(5);
+    	  		Power_On_Fun();
+                run_t.gPower_On=RUN_POWER_ON;
+    			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+    			
+    			run_t.input_key_flag =POWER_ON_ITEM;
+    			
+    		
+
+    			run_t.gModel =1;
+    			run_t.display_set_timer_timing=beijing_time ;
+            }
+            else{
+                SendData_PowerOnOff(0);
+    			HAL_Delay(5);
+                run_t.gPower_On=RUN_POWER_OFF;
+                Power_Off_Fun();
+			run_t.gPower_On = RUN_POWER_OFF;
+            run_t.input_key_flag =POWER_OFF_ITEM;
+			run_t.temperature_set_flag = 0;
+            run_t.power_key_interrupt_start_counter_flag=0;
+			run_t.wifi_set_temperature_value_flag=0;
+		    run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+            run_t.wifi_led_fast_blink_flag=0;
+            run_t.Timer_mode_flag = 0;
+			run_t.works_counter_time_value=0;
+			run_t.panel_key_setup_timer_flag=0;
+            run_t.setup_temperature_value=0;
+		    run_t.timer_time_hours =0;
+			run_t.timer_time_minutes =0;
+			run_t.timer_timing_define_flag = timing_not_definition;
 
 			run_t.gKey_command_tag = KEY_NULL;
+			run_t.ptc_too_hot_flag = 0;
+			run_t.ptc_warning = 0;
+			
+			run_t.fan_warning=0;
+
+
+            }
+
+			//run_t.gKey_command_tag = KEY_NULL;
 			
 
 		
@@ -113,35 +149,20 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case LINK_WIFI_ITEM: //case link_cloud_key:
 
-	    switch(run_t.wifi_link_flag){
-
-		  case 0:
+	
         
 		     SendData_Set_Wifi(0x01);
-		     HAL_Delay(10);
-		     run_t.wifi_link_flag =1;
-         
-		 break;
-
-		 case 1:
-		
-			run_t.power_key_interrupt_start_counter_flag=0;
-			run_t.gTimer_key_counter=0;
+		     HAL_Delay(5);
+		   
+           // run_t.power_key_interrupt_start_counter_flag=0;
+			//run_t.gTimer_key_counter=0;
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
 			run_t.wifi_connect_flag =0;
 			run_t.gTimer_wifi_connect_counter=0;
-			run_t.wifi_link_flag=2;
-
-		 break;
-
-		 case 2: 
-		 	run_t.wifi_link_flag++;
-		    run_t.gKey_command_tag = KEY_NULL;
+	
 
 
-		 break;
-
-		}
+		
 	  
 		
 	  break;
