@@ -101,6 +101,7 @@ typedef struct __RUN{
    uint8_t wifi_receive_led_fast_led_flag;
    uint8_t wifi_receive_power_on_flag;
    uint8_t wifi_receive_power_off_flag;
+   uint8_t gTimer_first_power_on_counter;
    
    //others 
    uint8_t auto_model_shut_off_ptc_flag;

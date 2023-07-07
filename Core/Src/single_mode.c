@@ -82,7 +82,11 @@ void Process_Key_Handler(uint8_t keylabel)
         		HAL_Delay(5);
                
             }
-            if(power_off!=0) run_t.gFan_RunContinue=1;
+            if(power_off!=0){
+                run_t.gFan_RunContinue=1;
+                run_t.gTimer_first_power_on_counter=0;
+
+             }
 			run_t.gPower_On = RUN_POWER_OFF;
           
 			run_t.temperature_set_flag = 0;
@@ -112,6 +116,8 @@ void Process_Key_Handler(uint8_t keylabel)
                 if(power_on==0){
                    power_on++;
                    run_t.power_key_interrupt_counter=1;
+                  
+                
 
                 }
 
@@ -707,7 +713,7 @@ void RunPocess_Command_Handler(void)
         run_t.gTimer_first_power_on_flag =0;
 	   	
           
-	         SendData_PowerOnOff(1);
+	        SendData_PowerOnOff(1);
     		HAL_Delay(5);
           
         }
@@ -815,6 +821,13 @@ void RunPocess_Command_Handler(void)
 
 
      }
+     if(run_t.gTimer_first_power_on_counter > 6 && run_t.power_key_interrupt_counter==1){
+        run_t.gTimer_first_power_on_counter=0;
+         SendData_PowerOnOff(1);
+    	HAL_Delay(5);
+      if(run_t.power_key_interrupt_counter==1)run_t.power_key_interrupt_counter++;
+
+     }
 
      break;
 
@@ -847,7 +860,7 @@ void RunPocess_Command_Handler(void)
          
          if(run_t.wifi_receive_power_off_flag==0 && run_t.gTimer_first_power_on_flag >4 && run_t.first_power_on_flag!=2){
             run_t.gTimer_first_power_on_flag=0;
-
+  
             SendData_PowerOnOff(0);
     		HAL_Delay(5);
 

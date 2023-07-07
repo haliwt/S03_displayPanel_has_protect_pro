@@ -138,7 +138,7 @@ int main(void)
           
               if(run_t.gPower_On==1 && run_t.process_run_guarantee_flag==0){
                 
-                   
+                 
                     if(run_t.power_key_interrupt_counter !=1){
                          run_t.gKey_command_tag= KEY_Scan();
 
