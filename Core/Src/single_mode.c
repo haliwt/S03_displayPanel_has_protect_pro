@@ -17,7 +17,7 @@ uint8_t unit_minute;
 uint8_t decade_second;
 uint8_t unit_second;
 uint8_t unit_temp ;
-uint8_t power_on_off_flag;
+
 uint8_t keyvalue;
 
 
@@ -70,6 +70,8 @@ void Process_Key_Handler(uint8_t keylabel)
 
       case POWER_OFF_ITEM://case power_key:
             Power_Off_Fun();
+            SendData_PowerOnOff(0);
+    		HAL_Delay(5);
 			run_t.gPower_On = RUN_POWER_OFF;
             run_t.input_key_flag =POWER_OFF_ITEM;
 			run_t.temperature_set_flag = 0;
@@ -85,19 +87,19 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.timer_time_minutes =0;
 			run_t.timer_timing_define_flag = timing_not_definition;
 
-			run_t.gKey_command_tag = KEY_NULL;
 			run_t.ptc_too_hot_flag = 0;
 			run_t.ptc_warning = 0;
 			
 			run_t.fan_warning=0;
+            run_t.gKey_command_tag = KEY_NULL;
 
 	  break;
 
 	  case POWER_ON_ITEM:
 
            
-           power_on_changed =power_on_changed ^ 0x01;
-           if(power_on_changed==1){
+//           power_on_changed =power_on_changed ^ 0x01;
+//           if(power_on_changed==1){
                SendData_PowerOnOff(1);
     			HAL_Delay(5);
     	  		Power_On_Fun();
@@ -110,7 +112,9 @@ void Process_Key_Handler(uint8_t keylabel)
 
     			run_t.gModel =1;
     			run_t.display_set_timer_timing=beijing_time ;
-            }
+                 run_t.gKey_command_tag = KEY_NULL;
+         //   }
+           #if 0
             else{
                 SendData_PowerOnOff(0);
     			HAL_Delay(5);
@@ -139,7 +143,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 
             }
-
+            #endif 
 			//run_t.gKey_command_tag = KEY_NULL;
 			
 
@@ -412,7 +416,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		run_t.disp_wind_speed_grade =30;	
 		
 		run_t.fan_off_60s =0;
-		power_on_off_flag=1;
+		
 
 } 
 

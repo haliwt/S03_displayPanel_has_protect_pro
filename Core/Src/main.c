@@ -137,12 +137,13 @@ int main(void)
            }
 		   
             //Key_TheSecond_Scan();
-           run_t.gKey_command_tag= KEY_Scan();
+             if(run_t.gPower_On==1)
+               run_t.gKey_command_tag= KEY_Scan();
 			if(run_t.first_power_on_flag==1){
 				run_t.first_power_on_flag++;
 				
 				run_t.gPower_On = RUN_POWER_OFF;
-				run_t.gKey_command_tag = KEY_NULL;//POWER_OFF_ITEM;
+				run_t.gKey_command_tag = POWER_OFF_ITEM;
 			}
 			Process_Key_Handler(run_t.gKey_command_tag);
 			RunPocess_Command_Handler();

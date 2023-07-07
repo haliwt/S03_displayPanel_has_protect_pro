@@ -28,14 +28,14 @@ uint8_t KEY_Scan(void)
     {
         key_t.read &= ~0x01; // 0xff & 0xfe =  0xFE
     }
-//    if(DEC_KEY_VALUE()==KEY_DOWN )
-//	{
-//		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
-//	}
-//    else if(ADD_KEY_VALUE() ==KEY_DOWN )
-//	{
-//		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
-//	 }
+    if(DEC_KEY_VALUE()==KEY_DOWN )
+	{
+		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
+	}
+    else if(ADD_KEY_VALUE() ==KEY_DOWN )
+	{
+		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
+	 }
     else if(MODE_KEY_VALUE() ==KEY_DOWN )
 	{
 		key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
@@ -152,39 +152,44 @@ uint8_t KEY_Scan(void)
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    //static uint16_t key_power_counter,add_key_counter,dec_key_counter;
-   if(run_t.power_times==1){
-   
+ 
+  
    switch(GPIO_Pin){
 
+//    case KEY_POWER_Pin:
+//
+//      run_t.power_key_interrupt_counter++;
+//
+//
+//    break;
 
-
-
-
-	 case KEY_ADD_Pin:
-	 
-
-	 	if(ADD_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1 ){
-         
-		    run_t.gKey_command_tag = ADD_KEY_ITEM;
-
-
-		}
-
-	 break;
-
-	 case KEY_DEC_Pin:
-		
-		if(DEC_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
-        
-         
-		    run_t.gKey_command_tag = DEC_KEY_ITEM;
-
-       }
-	 
-
-	 break;
-
-
+      
+    
+//	 case KEY_ADD_Pin:
+//	 
+//
+//	 	if(ADD_KEY_VALUE() ==KEY_DOWN && run_t.gPower_On==1 ){
+//         
+//		    run_t.gKey_command_tag = ADD_KEY_ITEM;
+//
+//
+//		}
+//
+//	 break;
+//
+//	 case KEY_DEC_Pin:
+//		
+//		if(DEC_KEY_VALUE() ==KEY_DOWN &&  run_t.gPower_On==1){
+//        
+//         
+//		    run_t.gKey_command_tag = DEC_KEY_ITEM;
+//
+//       }
+//	 
+//
+//	 break;
+//
+//
 
 
 
@@ -194,7 +199,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 }
 
-}
+
 
 /**
 
