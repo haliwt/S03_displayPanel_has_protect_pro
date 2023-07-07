@@ -55,6 +55,16 @@ typedef enum{
 	KEY_NULL
 }key_state;
 
+typedef enum{
+
+  POWER_OFF,
+  POWER_ON,
+  POWER_ID_FLAG,
+  POWER_NULL
+
+
+}power_state;
+
 
 
 
