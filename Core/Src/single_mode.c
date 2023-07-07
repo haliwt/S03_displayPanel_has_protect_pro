@@ -66,6 +66,7 @@ void Process_Key_Handler(uint8_t keylabel)
     static uint8_t power_on_fisrt_flag,display_model;
     static uint8_t temp_bit_1_hours,temp_bit_2_hours,temp_bit_1_minute,temp_bit_2_minute;
     static uint8_t power_off_thefirst;
+    run_t.process_run_guarantee_flag=0;
     switch(keylabel){
 
       case POWER_OFF_ITEM://case power_key:
@@ -73,12 +74,13 @@ void Process_Key_Handler(uint8_t keylabel)
             if(power_off_thefirst==0){
                power_off_thefirst++;
             }
-            else{
+            else if(run_t.wifi_send_buzzer_sound != WIFI_POWER_OFF_ITEM){
+       
                 SendData_PowerOnOff(0);
         		HAL_Delay(5);
             }
 			run_t.gPower_On = RUN_POWER_OFF;
-            run_t.input_key_flag =POWER_OFF_ITEM;
+          
 			run_t.temperature_set_flag = 0;
       
 			run_t.wifi_set_temperature_value_flag=0;
@@ -94,6 +96,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			run_t.ptc_too_hot_flag = 0;
 			run_t.ptc_warning = 0;
+            run_t.gTimer_first_power_on_flag=0;
 			
 			run_t.fan_warning=0;
             run_t.gKey_command_tag = KEY_NULL;
@@ -102,14 +105,15 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case POWER_ON_ITEM:
 
-
+               if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
                SendData_PowerOnOff(1);
     			HAL_Delay(5);
+               }
     	  		Power_On_Fun();
                 run_t.gPower_On=RUN_POWER_ON;
     			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-    			
-    			run_t.input_key_flag =POWER_ON_ITEM;
+    			run_t.gTimer_first_power_on_flag=0;
+    	
     			
     		
 
@@ -546,7 +550,7 @@ static void Setup_Timer_Times(void)
 				run_t.timer_time_minutes=0;
 				run_t.wifi_send_buzzer_sound=0xff;
 				Power_Off_Fun();
-			    run_t.input_key_flag =POWER_OFF_ITEM ;
+			
 
 			    run_t.gFan_RunContinue=1;
 				run_t.fan_off_60s = 0;
@@ -679,38 +683,28 @@ void RunPocess_Command_Handler(void)
 {
    //key input run function
 
-   static uint8_t temp1,temp2,key_set_temp_flag, link_wifi_success,power_off_flag;
+   static uint8_t temp1,temp2,key_set_temp_flag, link_wifi_success;
    static uint8_t power_on_fisrt_send_temperature_value, works_break_flag;
 
    switch(run_t.gPower_On){
 
    case RUN_POWER_ON:
-       power_off_flag=0;
+    
+       run_t.first_power_on_flag=3;
+     
 
-       switch(run_t.step_run_power_on_tag){
-
-	   case 0: 
-       if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM && run_t.input_key_flag ==POWER_ON_ITEM){
-			run_t.input_key_flag=KEY_NULL;
-            SendData_PowerOnOff(1);
-			HAL_Delay(5);
-			
-
-		}
-	   if(run_t.first_power_on_flag < 45){
-	   	 run_t.first_power_on_flag++;
-  
-	       SendData_PowerOnOff(1);
-		   HAL_Delay(5);
-
-
-	   }
-	   if(run_t.first_power_on_flag > 44)
-	       run_t.step_run_power_on_tag =1;
-       break;
-
-	   case 1:
-        run_t.first_power_on_flag=51;
+	  if(run_t.gTimer_first_power_on_flag > 4 && run_t.wifi_receive_power_on_flag==0){
+        run_t.gTimer_first_power_on_flag =0;
+	   	
+          
+	         SendData_PowerOnOff(1);
+    		HAL_Delay(5);
+          
+        }
+    
+      
+	 
+       
 	    Lcd_PowerOn_Fun();
 	    Timing_Handler();
 	    DisplayPanel_Ref_Handler();
@@ -801,7 +795,7 @@ void RunPocess_Command_Handler(void)
 
      }
 
-     if(run_t.wifi_led_fast_blink_flag==1 && run_t.gTimer_wifi_led_blink > 10){
+     if(run_t.wifi_led_fast_blink_flag==1 && run_t.gTimer_wifi_led_blink > 4){
         run_t.gTimer_wifi_led_blink=0;
 
         if(run_t.wifi_receive_led_fast_led_flag==0){
@@ -812,34 +806,14 @@ void RunPocess_Command_Handler(void)
 
      }
 
-	
-	 
-	
-	     break;
-      }
      break;
 
 	 case RUN_POWER_OFF:
          run_t.step_run_power_on_tag=0;
-	    switch(power_off_flag){
+	     run_t.step_run_power_on_tag =0;
+         run_t.wifi_receive_power_on_flag=0;
 
-	    case 0 :
-	    if(run_t.wifi_send_buzzer_sound != WIFI_POWER_OFF_ITEM){
-			     if(run_t.first_power_on_flag !=2)
-                    SendData_PowerOnOff(0);
-                    HAL_Delay(10);
-		          if(run_t.first_power_on_flag ==2){
-		          	  run_t.first_power_on_flag++;
-                      
-
-		          }
-
-		}
-
-		power_off_flag=1;
-        break;
-
-        case 1:
+	    
 
    	     Breath_Led();
          beijing_time_fun();
@@ -856,9 +830,21 @@ void RunPocess_Command_Handler(void)
 		   }
 
          }
-         run_t.input_key_flag=KEY_NULL;
-         break;
-      }
+        
+
+         
+         if(run_t.wifi_receive_power_off_flag==0 && run_t.gTimer_first_power_on_flag >4 && run_t.first_power_on_flag!=2){
+            run_t.gTimer_first_power_on_flag=0;
+
+            SendData_PowerOnOff(0);
+    		HAL_Delay(5);
+
+         }
+
+       
+
+       
+   
    
       
     break;
@@ -1066,6 +1052,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 				run_t.gModel =1;
 				run_t.display_set_timer_timing=beijing_time ;
 				run_t.gKey_command_tag = POWER_ON_ITEM;
+                run_t.process_run_guarantee_flag=1;
 			  cmd=0xff;
 
 	         break;
@@ -1076,6 +1063,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 			   run_t.wifi_send_buzzer_sound = WIFI_POWER_OFF_ITEM;
 				
 			   run_t.gKey_command_tag=POWER_OFF_ITEM;
+               run_t.process_run_guarantee_flag=1;
 				
               cmd=0xff;
 

@@ -207,6 +207,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 					run_t.wifi_receive_led_fast_led_flag =1;
                     
 				  }
+                  else if(inputBuf[0]==0x54){
+                    
+                      run_t.wifi_receive_power_on_flag =1;
+
+                  }
+                  else if(inputBuf[0]==0x53){
+                    
+                      run_t.wifi_receive_power_off_flag =1;
+
+                  }
+                  
                  
                    run_t.decodeFlag=0; 
                    state=0;
@@ -306,7 +317,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			
 		     state=0;
 		     run_t.decodeFlag=1;
-	         run_t.step_run_power_on_tag;
+	         run_t.step_run_power_on_tag=1;
            
 		    break;
 
