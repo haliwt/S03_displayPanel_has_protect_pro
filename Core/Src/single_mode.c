@@ -116,8 +116,7 @@ void Process_Key_Handler(uint8_t keylabel)
                 if(power_on==0){
                    power_on++;
                    run_t.power_key_interrupt_counter=1;
-                  
-                
+                   
 
                 }
 
@@ -821,10 +820,9 @@ void RunPocess_Command_Handler(void)
 
 
      }
-     if(run_t.gTimer_first_power_on_counter > 6 && run_t.power_key_interrupt_counter==1){
+     if(run_t.gTimer_first_power_on_counter > 7 && run_t.power_key_interrupt_counter==1){
         run_t.gTimer_first_power_on_counter=0;
-         SendData_PowerOnOff(1);
-    	HAL_Delay(5);
+      
       if(run_t.power_key_interrupt_counter==1)run_t.power_key_interrupt_counter++;
 
      }

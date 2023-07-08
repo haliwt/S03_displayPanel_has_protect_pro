@@ -37,7 +37,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-uint8_t key_read_value;
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -73,7 +73,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-    static uint8_t power_on_the_first;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -134,17 +134,25 @@ int main(void)
             Decode_Function();
                 
            }
-		   
-          
-              if(run_t.gPower_On==1 && run_t.process_run_guarantee_flag==0){
+		    if(run_t.gPower_On==1 && run_t.process_run_guarantee_flag==0){
                 
-                 
+                  
                     if(run_t.power_key_interrupt_counter !=1){
-                         run_t.gKey_command_tag= KEY_Scan();
+                          run_t.gKey_command_tag= KEY_Scan();
+                         
 
                      }
+
+                    if(run_t.power_key_interrupt_counter ==1){
+                        run_t.gPower_On=RUN_POWER_ON;
+                     SendData_PowerOnOff(1);
+    			    HAL_Delay(5);
+                        
+
+                      }
                     
             }
+          
             
 			if(run_t.first_power_on_flag==1){
 				run_t.first_power_on_flag++;
@@ -155,6 +163,9 @@ int main(void)
 			Process_Key_Handler(run_t.gKey_command_tag);
 			RunPocess_Command_Handler();
 			USART1_Cmd_Error_Handler();
+
+           
+            
 			
                 
           break;
