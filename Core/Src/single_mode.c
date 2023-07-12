@@ -79,7 +79,7 @@ void Process_Key_Handler(uint8_t keylabel)
             else if(run_t.wifi_send_buzzer_sound != WIFI_POWER_OFF_ITEM){
        
                 SendData_PowerOnOff(0);
-        		HAL_Delay(5);
+        		HAL_Delay(1);
                
             }
             if(power_off!=0){
@@ -105,6 +105,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.ptc_too_hot_flag = 0;
 			run_t.ptc_warning = 0;
             run_t.gTimer_first_power_on_flag=0;
+            run_t.gTimer_first_power_off_flag=0;
 			
 			run_t.fan_warning=0;
             run_t.gKey_command_tag = KEY_NULL;
@@ -122,7 +123,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
                if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
                SendData_PowerOnOff(1);
-    			HAL_Delay(5);
+    			HAL_Delay(1);
                }
     	  		Power_On_Fun();
                 run_t.gPower_On=RUN_POWER_ON;
@@ -130,7 +131,7 @@ void Process_Key_Handler(uint8_t keylabel)
     			run_t.gTimer_first_power_on_flag=0;
     	
     			
-    		
+    		    run_t.gTimer_first_power_off_flag=0;
 
     			run_t.gModel =1;
     			run_t.display_set_timer_timing=beijing_time ;
@@ -141,15 +142,16 @@ void Process_Key_Handler(uint8_t keylabel)
 
 
 	  case LINK_WIFI_ITEM: //case link_cloud_key:
-
-	    SendData_Set_Wifi(0x01);
-        HAL_Delay(5);
-        run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-        run_t.wifi_connect_flag =0;
-        run_t.gTimer_wifi_connect_counter=0;
-        run_t.gTimer_wifi_led_blink=0;
-        run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
-        run_t.wifi_led_fast_blink_flag=1;
+       
+    	    SendData_Set_Wifi(0x01);
+            HAL_Delay(2);
+            run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+            run_t.wifi_connect_flag =0;
+            run_t.gTimer_wifi_connect_counter=0;
+            run_t.gTimer_wifi_led_blink=0;
+            run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
+            run_t.wifi_led_fast_blink_flag=1;
+        
 	 break;
 
 	  case MODE_KEY_ITEM://case model_key:
@@ -708,12 +710,12 @@ void RunPocess_Command_Handler(void)
        run_t.first_power_on_flag=3;
      
 
-	  if(run_t.gTimer_first_power_on_flag > 4 && run_t.wifi_receive_power_on_flag==0){
+	  if(run_t.gTimer_first_power_on_flag > 0 && run_t.wifi_receive_power_on_flag==0){
         run_t.gTimer_first_power_on_flag =0;
 	   	
           
 	        SendData_PowerOnOff(1);
-    		HAL_Delay(5);
+    		HAL_Delay(2);
           
         }
     
@@ -772,7 +774,7 @@ void RunPocess_Command_Handler(void)
 	  
 				run_t.gDry = 0;
 			    SendData_Set_Command(DRY_OFF_NO_BUZZER);
-                 HAL_Delay(200);
+                 HAL_Delay(5);
 
             }
 			else if((run_t.wifi_set_temperature -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] < 37){
@@ -810,12 +812,12 @@ void RunPocess_Command_Handler(void)
 
      }
 
-     if(run_t.wifi_led_fast_blink_flag==1 && run_t.gTimer_wifi_led_blink > 4){
+     if(run_t.wifi_led_fast_blink_flag==1 && run_t.gTimer_wifi_led_blink > 0){
         run_t.gTimer_wifi_led_blink=0;
 
         if(run_t.wifi_receive_led_fast_led_flag==0){
               SendData_Set_Wifi(0x01);
-              HAL_Delay(5);
+              HAL_Delay(1);
         }
 
 
@@ -834,7 +836,13 @@ void RunPocess_Command_Handler(void)
 	     run_t.step_run_power_on_tag =0;
          run_t.wifi_receive_power_on_flag=0;
 
-	    
+	    if(run_t.wifi_receive_power_off_flag==0 && run_t.gTimer_first_power_off_flag >0 && run_t.first_power_on_flag!=2){
+            run_t.gTimer_first_power_off_flag=0;
+  
+            SendData_PowerOnOff(0);
+    		HAL_Delay(2);
+
+         }
 
    	     Breath_Led();
          beijing_time_fun();
@@ -856,13 +864,7 @@ void RunPocess_Command_Handler(void)
         
 
          
-         if(run_t.wifi_receive_power_off_flag==0 && run_t.gTimer_first_power_on_flag >4 && run_t.first_power_on_flag!=2){
-            run_t.gTimer_first_power_on_flag=0;
-  
-            SendData_PowerOnOff(0);
-    		HAL_Delay(5);
-
-         }
+         
 
        
 
