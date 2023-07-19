@@ -718,17 +718,11 @@ void RunPocess_Command_Handler(void)
     		HAL_Delay(2);
           
         }
-    
-      
-	 
-       
-	    Lcd_PowerOn_Fun();
+        Lcd_PowerOn_Fun();
 	    Timing_Handler();
 	    DisplayPanel_Ref_Handler();
 
-		
-
-      //send timer timing value to main board 
+	//send timer timing value to main board 
       if(run_t.setup_timer_flag==1){
 		   run_t.setup_timer_flag++;
            
