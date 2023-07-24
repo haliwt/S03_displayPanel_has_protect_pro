@@ -167,7 +167,7 @@ void EXTI2_3_IRQHandler(void)
 void EXTI4_15_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI4_15_IRQn 0 */
-  
+
   /* USER CODE END EXTI4_15_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(KEY_POWER_Pin);
   HAL_GPIO_EXTI_IRQHandler(KEY_ADD_Pin);
@@ -182,9 +182,9 @@ void EXTI4_15_IRQHandler(void)
 		    }
         
             if(run_t.power_key_interrupt_counter==1)run_t.power_key_interrupt_counter++;
+           }
             
-            
-		}
+		
 
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */
 
