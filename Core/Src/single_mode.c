@@ -19,6 +19,8 @@ uint8_t unit_second;
 uint8_t unit_temp ;
 
 uint8_t keyvalue;
+uint8_t send_times;
+
 
 
 void (*single_ai_fun)(uint8_t cmd);
@@ -65,7 +67,7 @@ void Process_Key_Handler(uint8_t keylabel)
 {
     static uint8_t power_on_fisrt_flag,display_model,power_off,power_on;
     static uint8_t temp_bit_1_hours,temp_bit_2_hours,temp_bit_1_minute,temp_bit_2_minute;
-    static uint8_t power_off_thefirst;
+    static uint8_t power_off_thefirst,wifi_long_key;
    
     switch(keylabel){
 
@@ -149,18 +151,30 @@ void Process_Key_Handler(uint8_t keylabel)
 
 
 	  case LINK_WIFI_ITEM: //case link_cloud_key:
-       
-    	    SendData_Set_Wifi(0x01);
-            HAL_Delay(10);
-            run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-            run_t.wifi_connect_flag =0;
-            run_t.gTimer_wifi_connect_counter=0;
-            run_t.gTimer_wifi_led_blink=0;
-            run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
-            run_t.wifi_led_fast_blink_flag=1;
-            run_t.process_run_guarantee_flag=0;
+	         send_times++;
+            if(wifi_long_key!=send_times){
+                wifi_long_key=send_times;
+        	    SendData_Set_Wifi(0x01);
+                HAL_Delay(5);
+                run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+                run_t.wifi_connect_flag =0;
+                run_t.gTimer_wifi_connect_counter=0;
+                run_t.gTimer_wifi_led_blink=0;
+                run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
+                run_t.wifi_led_fast_blink_flag=1;
+                run_t.process_run_guarantee_flag=0;
+            }
+            
+            if(run_t.wifi_receive_led_fast_led_flag==1){
+              run_t.gKey_command_tag = KEY_NULL;//WT.EDIT 2023.07.27
+            }
+            else{
+               SendData_Set_Wifi(0x01);
+               HAL_Delay(5);
 
-            run_t.gKey_command_tag = KEY_NULL;//WT.EDIT 2023.07.27
+
+            }
+           
         
 	 break;
 

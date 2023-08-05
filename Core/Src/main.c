@@ -146,7 +146,7 @@ int main(void)
                     if(run_t.power_key_interrupt_counter ==1){
                         run_t.gPower_On=RUN_POWER_ON;
                         SendData_PowerOnOff(1);
-                        HAL_Delay(20);
+                        HAL_Delay(5);
                         
 
                       }
@@ -157,7 +157,7 @@ int main(void)
                  run_t.first_power_on_flag=5;
                   run_t.gKey_command_tag = POWER_ON_ITEM;
                   SendData_PowerOnOff(1);
-                  HAL_Delay(20);
+                  HAL_Delay(5);
                         
 
              }

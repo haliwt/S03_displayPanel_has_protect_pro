@@ -181,9 +181,14 @@ void EXTI4_15_IRQHandler(void)
 			    run_t.gKey_command_tag = POWER_ON_ITEM;
 
 		    }
-        
+            else{
+
+                run_t.interrupt_key_power_on_conuter++;
+
+            }
+           
           //  if(run_t.power_key_interrupt_counter==1)run_t.power_key_interrupt_counter++;
-           }
+    }
             
 		
 

@@ -170,7 +170,7 @@ typedef struct __RUN{
 	
     int8_t 	gTime_hours;
 
-   
+     uint16_t interrupt_key_power_on_conuter;
 	 uint16_t power_key_interrupt_counter;
 	 uint16_t gTimer_ptc_fan_blink_warning;
      uint16_t gTimer_numbers_one_two_blink;
