@@ -109,7 +109,7 @@ typedef struct __RUN{
 
    //iwdg ref
    uint8_t process_run_guarantee_flag;
-   
+   uint8_t wifi_connect_success_flag;
 
 
  

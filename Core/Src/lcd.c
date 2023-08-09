@@ -263,7 +263,7 @@ void DisplayPanel_Ref_Handler(void)
 	 
 	 /**********************************end temperature*****************************************/
      //T2->"WIFI" icon -> 0xC5
-     if(run_t.wifi_connect_flag ==0){   // && run_t.gPower_On==1){ //hasn't wifi run_t.wifi_connect_flag
+     if(run_t.wifi_connect_success_flag ==0){   // && run_t.gPower_On==1){ //hasn't wifi run_t.wifi_connect_success_flag
          if(run_t.wifi_led_fast_blink_flag==0){
 			 if(lcd_t.gTimer_wifi_500ms >99 && lcd_t.gTimer_wifi_500ms<200){
 		          
@@ -305,7 +305,7 @@ void DisplayPanel_Ref_Handler(void)
 		 }
 		
      }
-	 else if(run_t.wifi_connect_flag ==1){//wifi be connect is OK 
+	 else if(run_t.wifi_connect_success_flag ==1){//wifi be connect is OK 
            run_t.wifi_led_fast_blink_flag=0;
            TM1723_Write_Display_Data(0xC5,(WIFI_Symbol+lcdNumber3_Low[lcd_t.number3_low] + lcdNumber4_High[lcd_t.number4_high]) & 0xff); //Wifi
          //  TIM1723_Write_Cmd(LUM_VALUE);

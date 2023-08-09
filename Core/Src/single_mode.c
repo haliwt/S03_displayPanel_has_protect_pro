@@ -138,10 +138,7 @@ void Process_Key_Handler(uint8_t keylabel)
                 run_t.gPower_On=RUN_POWER_ON;
     			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
     		
-    	
-    	
-
-    			run_t.gModel =1;
+    	        run_t.gModel =1;
     			run_t.display_set_timer_timing=beijing_time ;
                 run_t.gKey_command_tag = KEY_NULL;
                 run_t.process_run_guarantee_flag=0;
@@ -157,7 +154,7 @@ void Process_Key_Handler(uint8_t keylabel)
         	    SendData_Set_Wifi(0x01);
                 HAL_Delay(5);
                 run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-                run_t.wifi_connect_flag =0;
+                run_t.wifi_connect_success_flag =0;
                 run_t.gTimer_wifi_connect_counter=0;
                 run_t.gTimer_wifi_led_blink=0;
                 run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
@@ -169,6 +166,7 @@ void Process_Key_Handler(uint8_t keylabel)
               run_t.gKey_command_tag = KEY_NULL;//WT.EDIT 2023.07.27
             }
             else{
+               run_t.gKey_command_tag =LINK_WIFI_ITEM;
                SendData_Set_Wifi(0x01);
                HAL_Delay(5);
 
@@ -765,7 +763,7 @@ void RunPocess_Command_Handler(void)
 		   run_t.setup_timer_flag++;
            
 	       SendData_Time_Data(run_t.dispTime_hours);
-		  HAL_Delay(5);
+		    HAL_Delay(5);
 
 
 	  }
@@ -821,14 +819,14 @@ void RunPocess_Command_Handler(void)
 
            if(run_t.gTimer_detected_ptc_temp_value > 66  && run_t.ptc_warning==0){ //WT.EDIT 2023.07.27 over 40 degree shut of ptc off
            run_t.gTimer_detected_ptc_temp_value=0;
-           if(run_t.gReal_humtemp[1] >40){//envirment temperature
+           if(run_t.gReal_humtemp[1] >40 || run_t.wifi_set_temperature <= run_t.gReal_humtemp[1]){//envirment temperature
            
                      run_t.gDry = 0;
                      SendData_Set_Command(DRY_OFF_NO_BUZZER);
                       HAL_Delay(5);
        
                  }
-                 else if(run_t.gReal_humtemp[1] <38){
+                 else if(run_t.gReal_humtemp[1] <38 || (run_t.wifi_set_temperature -2) > run_t.gReal_humtemp[1] ){
            
                       run_t.gDry = 1;
                       SendData_Set_Command(DRY_ON_NO_BUZZER);
@@ -860,22 +858,12 @@ void RunPocess_Command_Handler(void)
     }
 
 
-     if(run_t.wifi_connect_flag ==1 && link_wifi_success==0 ){
+     if(run_t.wifi_connect_success_flag ==1 && link_wifi_success==0 ){
             link_wifi_success++;
             SendData_Set_Command(WIFI_CONNECT_SUCCESS);
 
      }
 
-     if(run_t.wifi_led_fast_blink_flag==1 && run_t.gTimer_wifi_led_blink > 0){
-        run_t.gTimer_wifi_led_blink=0;
-
-        if(run_t.wifi_receive_led_fast_led_flag==0){
-              SendData_Set_Wifi(0x01);
-              HAL_Delay(5);
-        }
-
-
-     }
      if(run_t.gTimer_first_power_on_counter > 7 && run_t.power_key_interrupt_counter==1){
         run_t.gTimer_first_power_on_counter=0;
       
@@ -1018,7 +1006,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
       break;
 
-       case WIFI_BEIJING_TIME: //7//run_t.wifi_connect_flag
+       case WIFI_BEIJING_TIME: //7//run_t.wifi_connect_success_flag
          if(run_t.gPower_On==1){
            if(run_t.timer_timing_define_flag==timing_not_definition ){
 			 lcd_t.number5_low=(run_t.dispTime_hours ) /10;
@@ -1125,7 +1113,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
            
               run_t.wifi_send_buzzer_sound = WIFI_POWER_ON_ITEM;
 	         
-		      run_t.wifi_connect_flag =1;
+		      run_t.wifi_connect_success_flag =1;
 			  run_t.gPower_On = 1;
 			  
 				run_t.gModel =1;
@@ -1138,7 +1126,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 
 			 case WIFI_POWER_OFF: //turn off 
                 
-			   run_t.wifi_connect_flag =1;
+			   run_t.wifi_connect_success_flag =1;
 			   run_t.wifi_send_buzzer_sound = WIFI_POWER_OFF_ITEM;
 				
 			   run_t.gKey_command_tag=POWER_OFF_ITEM;
