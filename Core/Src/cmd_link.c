@@ -195,29 +195,44 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                  state = 4;  
             break;
             case WIFI_INFO ://2
-                  if(inputBuf[0]==0x01){
-                     run_t.wifi_connect_success_flag =1;
+                 switch(inputBuf[0]){
+
+                 case 0x01: //connect tencen cloud is success flag
+                
+                    run_t.wifi_connect_success_flag =1;
 					 
-				   }
-                 if(inputBuf[0]==0x0){
+				 
+                 break;
+
+                 case 0:
+               
                      run_t.wifi_connect_success_flag =0;
-                  }
-				  if(inputBuf[0]==0x52){
+
+                 break;
+
+                 case 0x52: // link tencent cloud receive return data flag
+				
 					run_t.wifi_receive_led_fast_led_flag =1;
                     
-				  }
-                 if(inputBuf[0]==0x54){
+				  
+                 break;
+
+                 case 0x54 : //power on return confirm flag
+                
                     
                       run_t.wifi_receive_power_on_flag =1;
 
-                  }
-                 if(inputBuf[0]==0x53){
-                    
-                      run_t.wifi_receive_power_off_flag =1;
+                 break;
 
-                  }
+                 case 0x53: //power off return confirm flag
+              
+                    
+                    run_t.wifi_receive_power_off_flag =1;
+
                   
-                 
+                 break;
+                  
+                 }
                    run_t.decodeFlag=0; 
                    state=0;
                  
