@@ -76,18 +76,20 @@ void Process_Key_Handler(uint8_t keylabel)
       case POWER_OFF_ITEM://case power_key:
 
            run_t.wifi_receive_power_on_flag =0;
+           Power_Off_Fun();
             if(run_t.first_power_on_flag !=5){
                
-            Power_Off_Fun();
+            
             if(power_off_thefirst==0){
                power_off_thefirst++;
                
                run_t.gFan_RunContinue = 0;
+               
             }
             else if(run_t.wifi_send_buzzer_sound != WIFI_POWER_OFF_ITEM){
        
                 SendData_PowerOnOff(0);
-        		HAL_Delay(10);
+      
                
             }
             if(power_off!=0){
@@ -154,14 +156,15 @@ void Process_Key_Handler(uint8_t keylabel)
             if(wifi_long_key!=send_times){
                 wifi_long_key=send_times;
         	    SendData_Set_Wifi(0x01);
-                HAL_Delay(5);
+                HAL_Delay(1);
                 run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-                run_t.wifi_connect_success_flag =0;
                 run_t.gTimer_wifi_connect_counter=0;
                 run_t.gTimer_wifi_led_blink=0;
+                 run_t.wifi_connect_success_flag =0;
                 run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
                 run_t.wifi_led_fast_blink_flag=1;
                 run_t.process_run_guarantee_flag=0;
+                
             }
             
             if(run_t.wifi_receive_led_fast_led_flag==1){
@@ -170,7 +173,8 @@ void Process_Key_Handler(uint8_t keylabel)
             else{
                run_t.gKey_command_tag =LINK_WIFI_ITEM;
                SendData_Set_Wifi(0x01);
-               HAL_Delay(5);
+               HAL_Delay(1);
+             
 
 
             }
@@ -181,6 +185,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  case MODE_KEY_ITEM://case model_key:
 		if(run_t.gPower_On ==1){
 			//SendData_Buzzer();
+		 
            if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 		   if(run_t.display_set_timer_timing == beijing_time){
 		
@@ -820,6 +825,7 @@ void RunPocess_Command_Handler(void)
 
      if(run_t.wifi_connect_success_flag ==1 && link_wifi_success==0 ){
             link_wifi_success++;
+            run_t.wifi_receive_led_fast_led_flag=0;
             SendData_Set_Command(WIFI_CONNECT_SUCCESS);
 
      }
