@@ -39,6 +39,8 @@ static void Setup_Timer_Times(void);
 static void Works_Counter_Time(void);
 void Setup_Timer_Times_Donot_Display(void);
 static void Beijing_Time_Display(void);
+static void Ptc_Temperature_Compare_Value(void);
+
 
 /************************************************************************
 	*
@@ -752,11 +754,11 @@ void RunPocess_Command_Handler(void)
 
 	//send timer timing value to main board 
 	  if(run_t.first_power_on_flag==5){
-             
+          run_t.first_power_on_flag++; 
 	         Timing_Handler();
 	         DisplayPanel_Ref_Handler();
-            HAL_Delay(2000);
-            run_t.first_power_on_flag++;
+             HAL_Delay(10);
+          
 
       }
       if(run_t.setup_timer_flag==1){
@@ -795,49 +797,7 @@ void RunPocess_Command_Handler(void)
 			
 		}
 	   
-	   //set up temparature value 
-	  if(run_t.temperature_set_flag ==1 && run_t.gTimer_temp_delay > 61 && run_t.ptc_warning==0){
-               run_t.gTimer_temp_delay =0;
-		 
-		  
-		  if(run_t.wifi_set_temperature <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >40){//envirment temperature
-	  
-				run_t.gDry = 0;
-			    SendData_Set_Command(DRY_OFF_NO_BUZZER);
-                 HAL_Delay(5);
-
-            }
-			else if((run_t.wifi_set_temperature -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] <38){
-	  
-		         run_t.gDry = 1;
-			     SendData_Set_Command(DRY_ON_NO_BUZZER);
-                     HAL_Delay(1);
-		         }
-				 
-	   }
-       else{
-
-           if(run_t.gTimer_detected_ptc_temp_value > 66  && run_t.ptc_warning==0){ //WT.EDIT 2023.07.27 over 40 degree shut of ptc off
-           run_t.gTimer_detected_ptc_temp_value=0;
-           if(run_t.gReal_humtemp[1] >40 || run_t.wifi_set_temperature <= run_t.gReal_humtemp[1]){//envirment temperature
-           
-                     run_t.gDry = 0;
-                     SendData_Set_Command(DRY_OFF_NO_BUZZER);
-                      HAL_Delay(5);
-       
-                 }
-                 else if(run_t.gReal_humtemp[1] <38 || (run_t.wifi_set_temperature -2) > run_t.gReal_humtemp[1] ){
-           
-                      run_t.gDry = 1;
-                      SendData_Set_Command(DRY_ON_NO_BUZZER);
-                          HAL_Delay(1);
-                      }
-                      
-
-           }
-
-       }
-        
+	 Ptc_Temperature_Compare_Value();
 	 
    
    //receive from mainboard data 
@@ -854,7 +814,7 @@ void RunPocess_Command_Handler(void)
 		  if(run_t.wifi_set_temperature_value_flag != 1){
 		  	  SendData_Temp_Data(run_t.wifi_set_temperature);
                HAL_Delay(5);
-			}
+	     }
     }
 
 
@@ -917,8 +877,91 @@ void RunPocess_Command_Handler(void)
     break;
    	}
 }
+/**********************************************************************************************************
+    **
+    *Function Name:static void Ptc_Temperature_Compare_Value(void)
+    *Function : 
+    *Input Ref:lightNum--LED ,filterNum -filter number, unionNum - smart menu number
+    *Return Ref:NO
+    *
+*********************************************************************************************************/
+static void Ptc_Temperature_Compare_Value(void)
+{
+      //set up temparature value 
+      switch(run_t.temperature_set_flag ){
+
+      case 1:
+	    if(run_t.gTimer_temp_delay > 61 && run_t.ptc_warning==0){
+               run_t.gTimer_temp_delay =0;
+		 
+		  
+		  if(run_t.wifi_set_temperature <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >40){//envirment temperature
+	  
+				run_t.gDry = 0;
+			    SendData_Set_Command(DRY_OFF_NO_BUZZER);
+                 HAL_Delay(5);
+
+            }
+			else if((run_t.wifi_set_temperature -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] <38){
+	  
+		         run_t.gDry = 1;
+			     SendData_Set_Command(DRY_ON_NO_BUZZER);
+                     HAL_Delay(1);
+		         }
+				 
+	   }
+       break;
 
 
+       case 0:
+           
+           if(run_t.gTimer_detected_ptc_temp_value > 66  && run_t.ptc_warning==0 ){ //WT.EDIT 2023.07.27 over 40 degree shut of ptc off
+                run_t.gTimer_detected_ptc_temp_value=0;
+
+            if(run_t.wifi_set_temperature >19 && run_t.wifi_set_temperature < 41){
+           
+               if(run_t.gReal_humtemp[1] >40 || run_t.wifi_set_temperature <= run_t.gReal_humtemp[1]){//envirment temperature
+               
+                 run_t.gDry = 0;
+                 SendData_Set_Command(DRY_OFF_NO_BUZZER);
+                 HAL_Delay(5);
+           
+               }
+               else if(run_t.gReal_humtemp[1] <38 || (run_t.wifi_set_temperature -2) > run_t.gReal_humtemp[1] ){
+               
+                  run_t.gDry = 1;
+                  SendData_Set_Command(DRY_ON_NO_BUZZER);
+                  HAL_Delay(1);
+                }
+                          
+
+            }
+            else{
+                 if(run_t.gReal_humtemp[1] >40){//envirment temperature
+               
+                 run_t.gDry = 0;
+                 SendData_Set_Command(DRY_OFF_NO_BUZZER);
+                 HAL_Delay(5);
+           
+               }
+               else if(run_t.gReal_humtemp[1] <38){
+               
+                  run_t.gDry = 1;
+                  SendData_Set_Command(DRY_ON_NO_BUZZER);
+                  HAL_Delay(1);
+                }
+                          
+
+
+
+            }
+          }
+
+        break;
+        
+     }
+
+}
 /**********************************************************************************************************
 **
 *Function Name:static void notifyStatusToHost(uint8_t lightNum,uint8_t filterNum,uint8_t unionNum)
