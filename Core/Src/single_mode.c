@@ -75,7 +75,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
       case POWER_OFF_ITEM://case power_key:
 
-           run_t.wifi_receive_power_on_flag =1;
+           run_t.wifi_receive_power_on_flag =0;
             if(run_t.first_power_on_flag !=5){
                
             Power_Off_Fun();
@@ -131,7 +131,7 @@ void Process_Key_Handler(uint8_t keylabel)
                    run_t.power_key_interrupt_counter=1;
                    
                 }
-
+             
                if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
                SendData_PowerOnOff(1);
     			HAL_Delay(10);

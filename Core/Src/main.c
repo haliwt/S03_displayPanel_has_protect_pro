@@ -117,7 +117,7 @@ int main(void)
     switch(run_t.power_times){
         
         case 0:
-        HAL_Delay(2000);
+        HAL_Delay(500);
 
 		run_t.power_times++;
 		run_t.first_power_on_flag++;
@@ -163,7 +163,7 @@ int main(void)
              }
              else if(run_t.first_power_on_flag==1){
 				run_t.first_power_on_flag++;
-				
+				run_t.wifi_receive_power_off_flag=1;
 				//run_t.gPower_On = RUN_POWER_OFF;
 				run_t.gKey_command_tag = POWER_OFF_ITEM;
 			}
