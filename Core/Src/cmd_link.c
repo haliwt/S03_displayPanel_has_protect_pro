@@ -169,18 +169,84 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			if(inputBuf[0]=='D' || inputBuf[0]=='W'   || inputBuf[0]=='P' ||inputBuf[0] =='C' || inputBuf[0] == 'B' \
 			 ||inputBuf[0] == 'S' || inputBuf[0]=='T'||inputBuf[0]=='E'|| inputBuf[0] =='N'|| inputBuf[0] =='M') //'D'->data , 'W' ->wifi
 			{
-				
-				if(inputBuf[0]=='D') run_t.single_data=PANEL_DATA; //receive data is single data
-                else if(inputBuf[0]=='W') run_t.single_data = WIFI_INFO; //wifi data
-                else if(inputBuf[0]=='P') run_t.single_data = WIFI_REAL_TEMP;//temperature 
-				else if(inputBuf[0]=='C') run_t.single_data = WIFI_CMD; //command 
-				else if(inputBuf[0]=='B') run_t.single_data = WIFI_BEIJING_TIME;
-				else if(inputBuf[0]=='S') run_t.single_data = WIFI_WIND_SPEED;
-				else if(inputBuf[0]=='T') run_t.single_data = WIFI_SET_TIMING;
-				else if(inputBuf[0]=='E') run_t.single_data = WIFI_SET_TEMPERATURE;
-				else if(inputBuf[0]=='M') run_t.single_data = WIFI_SET_GMT_MINUTE;
-				else if(inputBuf[0]=='N') run_t.single_data = WIFI_SET_GMT_SECOND;
+				switch(inputBuf[0]){
+
+                 case 'D' :
+				 //if(inputBuf[0]=='D') run_t.single_data=PANEL_DATA; //receive data is single data
+				  run_t.single_data=PANEL_DATA;
+                  state=3;
+
+                 break;
+
+                 case 'W' :
+
+                 // else if(inputBuf[0]=='W') run_t.single_data = WIFI_INFO; //wifi data
+                 run_t.single_data = WIFI_INFO;
+                 state=3;
+
+                 break;
+
+                 case 'P' :
+
+                //else if(inputBuf[0]=='P') run_t.single_data = WIFI_REAL_TEMP;//temperature 
+                 run_t.single_data = WIFI_REAL_TEMP;
+                 state=3;
+
+                 break;
+
+                 case 'C' :
+
+                //else if(inputBuf[0]=='C') run_t.single_data = WIFI_CMD; //command 
+                    run_t.single_data = WIFI_CMD;
+                      state=3;
+                 break;
+
+                 case 'B' :
+
+                 //else if(inputBuf[0]=='B') run_t.single_data = WIFI_BEIJING_TIME;
+                 run_t.single_data = WIFI_BEIJING_TIME;
+                 state=3;
+
+                 break;
+
+                 case 'S':
+
+               // else if(inputBuf[0]=='S') run_t.single_data = WIFI_WIND_SPEED;
+                    run_t.single_data = WIFI_WIND_SPEED;
+                    state=3;
+
+                 break;
+
+                 case 'T' :
+
+                   //else if(inputBuf[0]=='T') run_t.single_data = WIFI_SET_TIMING;
+                   run_t.single_data = WIFI_SET_TIMING;
+                     state=3;
+                 break;
+
+                 case 'E':
+
+                   //else if(inputBuf[0]=='E') run_t.single_data = WIFI_SET_TEMPERATURE;
+                   run_t.single_data = WIFI_SET_TEMPERATURE;
+                    state=3;
+
+                 break;
+
+                 case 'M':
+
+                //else if(inputBuf[0]=='M') run_t.single_data = WIFI_SET_GMT_MINUTE;
+                  run_t.single_data = WIFI_SET_GMT_MINUTE;
+                  state=3;
+
+                 break;
+
+                 case 'N':
+
+               // else if(inputBuf[0]=='N') run_t.single_data = WIFI_SET_GMT_SECOND;
+                run_t.single_data = WIFI_SET_GMT_SECOND;
 			    state=3;
+                 break;
+                }
 			}
 			else
 				state=0;
