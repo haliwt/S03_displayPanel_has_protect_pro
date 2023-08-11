@@ -191,7 +191,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		
                //timer time + don't has ai item
                run_t.display_set_timer_timing = timer_time;
-			   run_t.gModel=2;
+			   run_t.gModel=2; //Timer time Model
 		      SendData_Set_Wifi(MODE_TIMER);
 			  HAL_Delay(1);
                
@@ -200,7 +200,7 @@ void Process_Key_Handler(uint8_t keylabel)
                 //beijing time + ai item
                 run_t.display_set_timer_timing = beijing_time;
              
-	           run_t.gModel=1;
+	           run_t.gModel=1; //AI model
 			  SendData_Set_Wifi(MODE_AI);
 			  HAL_Delay(1);
 				
@@ -422,7 +422,7 @@ void Process_Key_Handler(uint8_t keylabel)
  void Power_Off_Fun(void)
 {
 	
-        //run_t.gModel =1; //WT.EDIT 2022.09.01
+     
 		run_t.gPlasma=0;
 		run_t.gDry =0;
 		run_t.gUltransonic =0;
@@ -750,7 +750,7 @@ void RunPocess_Command_Handler(void)
 	  if(run_t.wifi_receive_power_on_flag==0){
      
 	   	SendData_PowerOnOff(1);
-    	HAL_Delay(10);
+    	HAL_Delay(1);
           
       }
         Lcd_PowerOn_Fun();
@@ -762,7 +762,7 @@ void RunPocess_Command_Handler(void)
           run_t.first_power_on_flag++; 
 	         Timing_Handler();
 	         DisplayPanel_Ref_Handler();
-             HAL_Delay(10);
+             HAL_Delay(5);
           
 
       }
@@ -770,7 +770,7 @@ void RunPocess_Command_Handler(void)
 		   run_t.setup_timer_flag++;
            
 	       SendData_Time_Data(run_t.dispTime_hours);
-		    HAL_Delay(5);
+		    HAL_Delay(1);
 
 
 	  }
@@ -871,15 +871,6 @@ void RunPocess_Command_Handler(void)
          }
         
 
-         
-         
-
-       
-
-       
-   
-   
-      
     break;
    	}
 }
@@ -1185,42 +1176,26 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 
 			 break;
 
-			case WIFI_MODE_1: //AI turn on -> AI icon display 
+			case WIFI_MODE_1: //AI Model
                 if(run_t.gPower_On==1){
 			
-					if(run_t.display_set_timer_timing == beijing_time){
-
-					//timer time + don't has ai item
-					run_t.display_set_timer_timing = timer_time;
-					run_t.gModel=0;
-
-					}
-					else if(run_t.display_set_timer_timing == timer_time){
-					//beijing time + ai item
+				
 					run_t.display_set_timer_timing = beijing_time;
-
 					run_t.gModel=1;
 
-					}
+
 		    	}
 			break;
 
-			 case WIFI_MODE_2: //icon don't display 
+			 case WIFI_MODE_2: //Timer Model
                  if(run_t.gPower_On==1){
-					  if(run_t.display_set_timer_timing == beijing_time){
+				
 
-						//timer time + don't has ai item
+					
 						run_t.display_set_timer_timing = timer_time;
-						run_t.gModel=0;
+						run_t.gModel=2;
 
-						}
-						else if(run_t.display_set_timer_timing == timer_time){
-						//beijing time + ai item
-						run_t.display_set_timer_timing = beijing_time;
 
-						run_t.gModel=1;
-
-						}
 			 	   
                  }
              break;

@@ -117,7 +117,7 @@ int main(void)
     switch(run_t.power_times){
         
         case 0:
-        HAL_Delay(500);
+        HAL_Delay(2000);
 
 		run_t.power_times++;
 		run_t.first_power_on_flag++;

@@ -153,7 +153,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    //static uint16_t key_power_counter,add_key_counter,dec_key_counter;
  
-  static uint8_t key_add,key_dec;
+
    switch(GPIO_Pin){
 
 
@@ -221,7 +221,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 }
 
 
-
+#if 0
 /**
 
   * @brief   ¼ì²âÊÇ·ñÓÐ°´¼ü°´ÏÂ
@@ -349,7 +349,7 @@ static uint8_t Key_Mode_Scan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin,uint8_t numbe
 	return  reval;
 
 }
-
+#endif 
 #if 0
 void Key_TheSecond_Scan(void)
 {
