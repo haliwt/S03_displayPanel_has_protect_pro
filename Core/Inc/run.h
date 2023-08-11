@@ -129,6 +129,7 @@ typedef struct __RUN{
    uint8_t  gmt_time_seconds;
    uint8_t display_set_timer_timing;
    uint8_t gTimer_detected_ptc_temp_value;
+   uint8_t fan_works_one_minute_flag;
 
 
  
