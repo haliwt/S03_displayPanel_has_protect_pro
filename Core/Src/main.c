@@ -134,7 +134,7 @@ int main(void)
             Decode_Function();
                 
            }
-		    if(run_t.gPower_On==1 && run_t.process_run_guarantee_flag==0){
+		   if(run_t.gPower_On==1 && run_t.process_run_guarantee_flag==0){
                 
                   
                     if(run_t.power_key_interrupt_counter !=1){
@@ -146,18 +146,18 @@ int main(void)
                     if(run_t.power_key_interrupt_counter ==1){
                         run_t.gPower_On=RUN_POWER_ON;
                         SendData_PowerOnOff(1);
-                        HAL_Delay(5);
+                        HAL_Delay(10);
                         
 
                       }
                     
             }
-            else if(run_t.first_power_on_flag ==4 && first_on==0){
+            else if(run_t.first_power_on_flag ==4 && first_on==0){ //the first key power On from stm32g030xx.it be set up value 
                  first_on++;
                  run_t.first_power_on_flag=5;
                   run_t.gKey_command_tag = POWER_ON_ITEM;
                   SendData_PowerOnOff(1);
-                  HAL_Delay(5);
+                  HAL_Delay(10);
                         
 
              }

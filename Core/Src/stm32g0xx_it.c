@@ -187,7 +187,7 @@ void EXTI4_15_IRQHandler(void)
 
             }
            
-          //  if(run_t.power_key_interrupt_counter==1)run_t.power_key_interrupt_counter++;
+         
     }
             
 		

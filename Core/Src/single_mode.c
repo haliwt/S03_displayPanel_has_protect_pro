@@ -135,8 +135,8 @@ void Process_Key_Handler(uint8_t keylabel)
                 }
              
                if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
-               SendData_PowerOnOff(1);
-    			HAL_Delay(10);
+                    SendData_PowerOnOff(1);
+    			    HAL_Delay(10);
                }
     	  		Power_On_Fun();
                 run_t.gPower_On=RUN_POWER_ON;
@@ -193,7 +193,7 @@ void Process_Key_Handler(uint8_t keylabel)
                run_t.display_set_timer_timing = timer_time;
 			   run_t.gModel=2; //Timer time Model
 		      SendData_Set_Wifi(MODE_TIMER);
-			  HAL_Delay(1);
+			  HAL_Delay(10);
                
 		   	}
 		    else if(run_t.display_set_timer_timing == timer_time){
@@ -202,7 +202,7 @@ void Process_Key_Handler(uint8_t keylabel)
              
 	           run_t.gModel=1; //AI model
 			  SendData_Set_Wifi(MODE_AI);
-			  HAL_Delay(1);
+			  HAL_Delay(10);
 				
 			}
 			
@@ -242,7 +242,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 		
 			 SendData_Buzzer();
-             HAL_Delay(30);
+             HAL_Delay(20);
 		
 
 		    switch(run_t.setup_timer_timing_item){
@@ -327,7 +327,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	   if(run_t.gPower_On ==1){
 	   	if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 	   	SendData_Buzzer();
-        HAL_Delay(30);
+        HAL_Delay(20);
 	     switch(run_t.setup_timer_timing_item){
 
 		   case 0: 
@@ -999,17 +999,15 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 	 case WIFI_REAL_TEMP: //4//set temperature value
 	       if(run_t.gPower_On ==1){
 		   	   
+            temperature_decade= run_t.wifi_set_temperature /10 ;
+            temperature_unit = run_t.wifi_set_temperature %10;
+
+            lcd_t.number1_high = temperature_decade;
+            lcd_t.number1_low = temperature_decade;
 
 
-		      temperature_decade= run_t.wifi_set_temperature /10 ;
-			  temperature_unit = run_t.wifi_set_temperature %10;
-		   
-	         lcd_t.number1_high = temperature_decade;
-			 lcd_t.number1_low = temperature_decade;
-
-			 
-		    lcd_t.number2_high =  temperature_unit;
-			lcd_t.number2_low = temperature_unit;
+            lcd_t.number2_high =  temperature_unit;
+            lcd_t.number2_low = temperature_unit;
 
 			
 		//	run_t.gTimer_numbers_one_two_blink=0;
