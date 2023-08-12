@@ -127,28 +127,28 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case POWER_ON_ITEM:
 
-                run_t.wifi_receive_power_off_flag=0;
-                if(power_on==0){
-                   power_on++;
-                   run_t.power_key_interrupt_counter=1;
-                   
-                }
-             
-               if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
-                    SendData_PowerOnOff(1);
-    			    HAL_Delay(10);
-               }
-    	  		Power_On_Fun();
-                run_t.gPower_On=RUN_POWER_ON;
-    			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-    		
-    	        run_t.gModel =1;
-    			run_t.display_set_timer_timing=beijing_time ;
-                run_t.gKey_command_tag = KEY_NULL;
-                run_t.process_run_guarantee_flag=0;
-                power_off =2;
+       run_t.wifi_receive_power_off_flag=0;
+       if(power_on==0){
+           power_on++;
+           run_t.power_key_interrupt_counter=1;
+           
+       }
+     
+       if(run_t.wifi_send_buzzer_sound != WIFI_POWER_ON_ITEM){
+            SendData_PowerOnOff(1);
+		    HAL_Delay(10);
+       }
+  		Power_On_Fun();
+        run_t.gPower_On=RUN_POWER_ON;
+		run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+	
+        run_t.gModel =1;
+		run_t.display_set_timer_timing=beijing_time ;
+        run_t.gKey_command_tag = KEY_NULL;
+        run_t.process_run_guarantee_flag=0;
+        power_off =2;
 		
-		break;
+	  break;
 
 
 	  case LINK_WIFI_ITEM: //case link_cloud_key:
