@@ -108,7 +108,7 @@ typedef struct __RUN{
    uint8_t auto_model_shut_off_ptc_flag;
 
    //iwdg ref
-   uint8_t process_run_guarantee_flag;
+   uint8_t key_add_dec_spec_flag;
    uint8_t wifi_connect_success_flag;
 
 

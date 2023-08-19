@@ -443,7 +443,7 @@ void USART1_Cmd_Error_Handler(void)
 	static uint8_t power_error;
 
 
-        if(run_t.gTimer_usart_error > 9 ){
+        if(run_t.gTimer_usart_error > 6 ){ //9
 			power_error++;
 			run_t.gTimer_usart_error=0;
 			  __HAL_UART_CLEAR_OREFLAG(&huart1);

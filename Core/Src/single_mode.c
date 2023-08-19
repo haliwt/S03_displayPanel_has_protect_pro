@@ -120,7 +120,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			
 			run_t.fan_warning=0;
             run_t.gKey_command_tag = KEY_NULL;
-            run_t.process_run_guarantee_flag=0;
+            run_t.key_add_dec_spec_flag=0;
             }
 
 	  break;
@@ -145,16 +145,20 @@ void Process_Key_Handler(uint8_t keylabel)
         run_t.gModel =1;
 		run_t.display_set_timer_timing=beijing_time ;
         run_t.gKey_command_tag = KEY_NULL;
-        run_t.process_run_guarantee_flag=0;
+        run_t.key_add_dec_spec_flag=0;
         power_off =2;
 		
 	  break;
 
 
 	  case LINK_WIFI_ITEM: //case link_cloud_key:
-	         send_times++;
+	         
+           if(run_t.gPower_On ==1){
+            send_times++;
+           if(run_t.fan_warning ==0 && run_t.ptc_warning ==0){
             if(wifi_long_key!=send_times){
                 wifi_long_key=send_times;
+                
         	    SendData_Set_Wifi(0x01);
                 HAL_Delay(1);
                 run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
@@ -163,7 +167,7 @@ void Process_Key_Handler(uint8_t keylabel)
                  run_t.wifi_connect_success_flag =0;
                 run_t.wifi_receive_led_fast_led_flag=0; //adjust if mainboard receive of connect wifi of signal
                 run_t.wifi_led_fast_blink_flag=1;
-                run_t.process_run_guarantee_flag=0;
+                run_t.key_add_dec_spec_flag=0;
                 
             }
             
@@ -178,8 +182,13 @@ void Process_Key_Handler(uint8_t keylabel)
 
 
             }
-           
-        
+            }
+           }
+           else{
+
+            run_t.gKey_command_tag = KEY_NULL;
+            run_t.key_add_dec_spec_flag=0;
+           }
 	 break;
 
 	  case MODE_KEY_ITEM://case model_key:
@@ -210,14 +219,16 @@ void Process_Key_Handler(uint8_t keylabel)
           }		
 		 }
 	  run_t.gKey_command_tag = KEY_NULL;
-      run_t.process_run_guarantee_flag=0;
+      run_t.key_add_dec_spec_flag=0;
 
 	  break;
 
 	  
 	  case MODE_KEY_LONG_TIME_KEY://case model_long_key:
-	  	if(run_t.gPower_On ==1 && run_t.fan_warning ==0){
-		   if(run_t.ptc_warning ==0){
+	   if(run_t.gPower_On ==1){
+	   if(run_t.fan_warning ==0 && run_t.ptc_warning ==0){
+	  	
+		  
 			run_t.gModel=2;
 		   run_t.setup_timer_timing_item=1;//run_t.gModel =2;
 		   run_t.display_set_timer_timing  =timer_time;
@@ -228,12 +239,12 @@ void Process_Key_Handler(uint8_t keylabel)
 		   
 		   
 		   SendData_Set_Wifi(MODE_TIMER);
-		   }
+		   
 		   
 	  	 }
-
+        }
 		run_t.gKey_command_tag = KEY_NULL;
-        run_t.process_run_guarantee_flag=0;
+        
 	  break;
 
 	  case ADD_KEY_ITEM: //case add_key:
@@ -275,7 +286,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 				run_t.panel_key_setup_timer_flag = 1;
                 
-               run_t.process_run_guarantee_flag=0;
+               run_t.key_add_dec_spec_flag=0;
 					
 			
 			   break;
@@ -313,14 +324,16 @@ void Process_Key_Handler(uint8_t keylabel)
 					lcd_t.number8_low = temp_bit_1_minute;
 					lcd_t.number8_high = temp_bit_1_minute;
 
-				run_t.process_run_guarantee_flag=0;
+				run_t.key_add_dec_spec_flag=0;
 				break;
 				}	
 			
 		     }
             }
+         
 
 		 run_t.gKey_command_tag = KEY_NULL;
+          run_t.key_add_dec_spec_flag=0;
 	  break;
 
 	  case DEC_KEY_ITEM: //case dec_key:
@@ -355,7 +368,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			
 			run_t.panel_key_setup_timer_flag = 1;
 	    	
-            run_t.process_run_guarantee_flag=0;
+            run_t.key_add_dec_spec_flag=0;
 		    break;
 
 			case 1:
@@ -393,7 +406,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 					lcd_t.number8_low = temp_bit_1_minute;
 					lcd_t.number8_high = temp_bit_1_minute;
-                    run_t.process_run_guarantee_flag=0;
+                    run_t.key_add_dec_spec_flag=0;
 
              break;
 
@@ -402,6 +415,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		}
 
       run_t.gKey_command_tag = KEY_NULL;
+      run_t.key_add_dec_spec_flag=0;
 	  break;
 
 	  default:
@@ -754,7 +768,9 @@ void RunPocess_Command_Handler(void)
           
       }
         Lcd_PowerOn_Fun();
-	    Timing_Handler();
+        if(run_t.fan_warning ==0 && run_t.ptc_warning ==0){
+	        Timing_Handler();
+         }
 	    DisplayPanel_Ref_Handler();
 
 	//send timer timing value to main board 
@@ -1157,7 +1173,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 				run_t.gModel =1;
 				run_t.display_set_timer_timing=beijing_time ;
 				run_t.gKey_command_tag = POWER_ON_ITEM;
-                run_t.process_run_guarantee_flag=1;
+                run_t.key_add_dec_spec_flag=1;
 			  cmd=0xff;
 
 	         break;
@@ -1168,7 +1184,7 @@ void Receive_Wifi_Cmd(uint8_t cmd)
 			   run_t.wifi_send_buzzer_sound = WIFI_POWER_OFF_ITEM;
 				
 			   run_t.gKey_command_tag=POWER_OFF_ITEM;
-               run_t.process_run_guarantee_flag=1;
+               run_t.key_add_dec_spec_flag=1;
 				
               cmd=0xff;
 

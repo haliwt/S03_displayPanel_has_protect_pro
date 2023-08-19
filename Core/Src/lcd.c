@@ -65,7 +65,7 @@
 #define  COM2_H        0X40
 #define  COM3_H        0X80
 
-#define LUM_VALUE      0x94// 0x97
+#define LUM_VALUE      0x94//0x92//0x93//0x95//0x94//0x97(max)
 
 
 static void Display_Kill_Dry_Ster_Icon(void);

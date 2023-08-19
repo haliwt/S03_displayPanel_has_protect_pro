@@ -176,7 +176,7 @@ void EXTI4_15_IRQHandler(void)
 			
 			
             if(run_t.gPower_On == 0){
-				run_t.process_run_guarantee_flag=1;
+				run_t.key_add_dec_spec_flag=1;
                 run_t.first_power_on_flag=4; //WT.EDIT 2023.07.25 add new item
 			    run_t.gKey_command_tag = POWER_ON_ITEM;
 

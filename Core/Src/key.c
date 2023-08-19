@@ -164,7 +164,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
            
           
                 run_t.gKey_command_tag = ADD_KEY_ITEM;
-                run_t.process_run_guarantee_flag=1;
+                run_t.key_add_dec_spec_flag=1;
 
                
            }
@@ -180,7 +180,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		
           if(DEC_KEY_VALUE() ==KEY_DOWN &&  run_t.gPower_On==1){
 		    run_t.gKey_command_tag = DEC_KEY_ITEM;
-            run_t.process_run_guarantee_flag=1;
+            run_t.key_add_dec_spec_flag=1;
            }
 
      

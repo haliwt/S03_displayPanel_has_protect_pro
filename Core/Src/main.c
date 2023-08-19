@@ -134,7 +134,7 @@ int main(void)
             Decode_Function();
                 
            }
-		   if(run_t.gPower_On==1 && run_t.process_run_guarantee_flag==0){
+		   if(run_t.gPower_On==1 && run_t.key_add_dec_spec_flag==0){
                 
                   
                     if(run_t.power_key_interrupt_counter !=1){
@@ -157,15 +157,15 @@ int main(void)
                  run_t.first_power_on_flag=5;
                   run_t.gKey_command_tag = POWER_ON_ITEM;
                   SendData_PowerOnOff(1);
-                  HAL_Delay(10);
+                  HAL_Delay(20);
                         
 
              }
              else if(run_t.first_power_on_flag==1){
-				run_t.first_power_on_flag++;
-				run_t.wifi_receive_power_off_flag=1;
-				run_t.gKey_command_tag = POWER_OFF_ITEM;
-			}
+                run_t.first_power_on_flag++;
+                run_t.wifi_receive_power_off_flag=1;
+                run_t.gKey_command_tag = POWER_OFF_ITEM;
+              }
 			Process_Key_Handler(run_t.gKey_command_tag);
 			RunPocess_Command_Handler();
 			USART1_Cmd_Error_Handler();
